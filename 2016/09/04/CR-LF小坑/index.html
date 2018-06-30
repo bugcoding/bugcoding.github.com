@@ -116,14 +116,10 @@
 <meta property="og:site_name" content="Bugcode&#39;s Note">
 <meta property="og:description" content="CR、LF、CR/LF不同系统对“换行”的表示，详情可以看这里。  LF(Line Feed): 换行，ascii码是10，对应字符’\n’，*Nix系使用此字符做为换行的标志(包括OSX及其之后的版本)。  CR(Carriage Return): 回车，ascii码是13，对应字符是’\r’，部分系统，类似Apple II那个经典的系统(wiki上有具体的解释)。 现在某度或者google出来">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://i4.buimg.com/4851/5900a7dea0c27580.png">
-<meta property="og:image" content="http://i4.buimg.com/4851/88a24c1900e88b8f.png">
-<meta property="og:image" content="http://i2.buimg.com/4851/ea309c00310e5865.png">
-<meta property="og:updated_time" content="2018-06-30T11:01:41.067Z">
+<meta property="og:updated_time" content="2018-06-30T15:15:00.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CR&#x2F;LF小坑">
 <meta name="twitter:description" content="CR、LF、CR/LF不同系统对“换行”的表示，详情可以看这里。  LF(Line Feed): 换行，ascii码是10，对应字符’\n’，*Nix系使用此字符做为换行的标志(包括OSX及其之后的版本)。  CR(Carriage Return): 回车，ascii码是13，对应字符是’\r’，部分系统，类似Apple II那个经典的系统(wiki上有具体的解释)。 现在某度或者google出来">
-<meta name="twitter:image" content="http://i4.buimg.com/4851/5900a7dea0c27580.png">
 
 
 
@@ -438,29 +434,13 @@
 <p>“…</p>
 <p>…</p>
 </blockquote>
-<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><p>一个小例子复现一下，假设文件都存放在桌面(Desktop)上。</p>
 <ol>
-<li><p>被Windows编辑过的没的转换的文件内容:</p>
-<center><img src="http://i4.buimg.com/4851/5900a7dea0c27580.png" alt=""></center>
-
-<p>​</p>
-</li>
-<li><p>需要执行替换的文件内容:</p>
-<center><img src="http://i4.buimg.com/4851/88a24c1900e88b8f.png" alt=""></center>
-
-<p>​</p>
-</li>
 <li><p>类似如下shell脚本:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">declare</span> -i count</span><br><span class="line">count=0</span><br><span class="line">cat ~/Desktop/test.txt | <span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    tmp=$(<span class="built_in">echo</span> <span class="variable">$&#123;line&#125;</span> | awk <span class="string">'&#123;print $2&#125;'</span>)</span><br><span class="line">    count=<span class="variable">$count</span>+1</span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"needReplaceIdentifier<span class="variable">$&#123;count&#125;</span>"</span></span><br><span class="line">    sed -i -e <span class="string">"s/needReplaceIdentifier<span class="variable">$&#123;count&#125;</span>/<span class="variable">$&#123;tmp&#125;</span>/"</span> ~/Desktop/test.dst</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
-<p>​</p>
 </li>
-<li><p>执行上文shell处理之后就变成标准的macOS换行的格式，替换完成就变成如下:</p>
-<center><img src="http://i2.buimg.com/4851/ea309c00310e5865.png" alt=""></center>
-
-<p>​</p>
+<li><p>执行上文shell处理之后就变成标准的macOS换行的格式，替换完成后这时候某些配置多了一个换行就已经开始报错了。</p>
 </li>
 </ol>
-<p>这时候某些配置多了一个换行就已经开始报错了。</p>
 <h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>扯了这么多，其实是非常简单的一个问题，解决方式有N种:</p>
 <ol>
 <li><p>双系统开发，只在对应的系统进行提交(和没说一样)</p>
@@ -708,7 +688,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CR、LF、CR-LF"><span class="nav-number">1.</span> <span class="nav-text">CR、LF、CR/LF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#起因"><span class="nav-number">2.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">3.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-number">4.</span> <span class="nav-text">解决</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#CR、LF、CR-LF"><span class="nav-number">1.</span> <span class="nav-text">CR、LF、CR/LF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#起因"><span class="nav-number">2.</span> <span class="nav-text">起因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决"><span class="nav-number">3.</span> <span class="nav-text">解决</span></a></li></ol></div>
             
 
           </div>

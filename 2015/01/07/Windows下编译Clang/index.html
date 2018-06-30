@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="网上最近一直在说Clang这个编译器，说FreeBSD已完全使用Clang为默认编译器，Mac下也是这个编译器，“据说”编译速度比Gcc快出很多，生成出来的可执行文件也比Gcc生成的要小那么几个KB，还有错误提示也要友好很多，更还有各方“大家”对此嗤之以鼻。但是不管如何，做为一个喜欢瞎折腾的码农，不管各个大家是怎么说，自己一定要上手试试的。因为在Windows下没有Clang的二进制包，本着自己动">
+<meta name="keywords" content="Windows">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows下编译Clang">
+<meta property="og:url" content="http://bugcode.net/2015/01/07/Windows下编译Clang/index.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="网上最近一直在说Clang这个编译器，说FreeBSD已完全使用Clang为默认编译器，Mac下也是这个编译器，“据说”编译速度比Gcc快出很多，生成出来的可执行文件也比Gcc生成的要小那么几个KB，还有错误提示也要友好很多，更还有各方“大家”对此嗤之以鼻。但是不管如何，做为一个喜欢瞎折腾的码农，不管各个大家是怎么说，自己一定要上手试试的。因为在Windows下没有Clang的二进制包，本着自己动">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://bugcode.net/chapimages/generate_size.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/gcc_error.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/clang_error.png">
+<meta property="og:updated_time" content="2018-06-30T11:01:41.105Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Windows下编译Clang">
+<meta name="twitter:description" content="网上最近一直在说Clang这个编译器，说FreeBSD已完全使用Clang为默认编译器，Mac下也是这个编译器，“据说”编译速度比Gcc快出很多，生成出来的可执行文件也比Gcc生成的要小那么几个KB，还有错误提示也要友好很多，更还有各方“大家”对此嗤之以鼻。但是不管如何，做为一个喜欢瞎折腾的码农，不管各个大家是怎么说，自己一定要上手试试的。因为在Windows下没有Clang的二进制包，本着自己动">
+<meta name="twitter:image" content="http://bugcode.net/chapimages/generate_size.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2015/01/07/Windows下编译Clang/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Windows下编译Clang | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">今朝有码今朝敲，莫待无码空长膘。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+    <a href="/tips" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />tips</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2015/01/07/Windows下编译Clang/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="coding like a rookie">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Windows下编译Clang
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-01-07 23:04:24" itemprop="dateCreated datePublished" datetime="2015-01-07T23:04:24+08:00">2015-01-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-30 19:01:41" itemprop="dateModified" datetime="2018-06-30T19:01:41+08:00">2018-06-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>网上最近一直在说Clang这个编译器，说FreeBSD已完全使用Clang为默认编译器，Mac下也是这个编译器，“据说”编译速度比Gcc快出很多，生成出来的可执行文件也比Gcc生成的要小那么几个KB，还有错误提示也要友好很多，更还有各方“大家”对此嗤之以鼻。但是不管如何，做为一个喜欢瞎折腾的码农，不管各个大家是怎么说，自己一定要上手试试的。因为在Windows下没有Clang的二进制包，本着自己动手丰衣足食的原则，决定自己构建一个尝尝鲜（虽然这个’鲜’已然过去很久了）， 其实构建过程很简单，官网上的getting started说得很明确了，这里也只是再用中文重复一下：</p>
+<ol>
+<li>svn的客户端，大多数都是直接使用TortoiseSVN，也就是那个“小乌龟”，用来check代码的，当然也可以直接去下source包。</li>
+<li>cmake，一个跨平台的makefile生成工具，可以生成不同平台的各种makefile或者project文件。</li>
+<li>vs2008或者vs2010，这个应该不用多说了，用windows的都知道。</li>
+</ol>
+<p>三个工具安装好，并确保cmake的bin目录在path中，就可以开工了。</p>
+<p>新建一个文件夹来放由svn检出的代码，比如d:/clang_llvm，之后用TortoiseSVN首先检出<a href="http://llvm.org/svn/llvm-project/llvm/trunk" target="_blank" rel="noopener">llvm</a>的代码到llvm文件夹，然后再检出<a href="http://llvm.org/svn/llvm-project/cfe/trunk" target="_blank" rel="noopener">clang</a>的代码到clang文件夹，再将clang文件夹全部移动到llvm下的tools文件夹下(TortoiseSVN)直接嵌入到右键菜单中，直接在clang_llvm文件夹中check out，填入链接和本地目录，OK即可）。完成后，回到clang_llvm文件夹下，此时文件夹中只有llvm目录，在clang_llvm下新建文件夹build。控制台进入到clang_llvm下的build目录下，执行如下命令：</p>
+<blockquote>
+<p>如果是vs2008，则是：camke –G “Visual Studio 9 2008” ..\llvm</p>
+<p>如果是vs2010，则是：cmake –G “Visual Studio 10” ..\llvm</p>
+</blockquote>
+<p>如果运气不错，执行完毕后，生成LLVM.sln。使用vs打开这个解决方案。选择ALL_BUILD构建，漫长的等待…</p>
+<p>完成后就可以在build/bin/Debug或者build/bin/Release文件下看到对应的类似clang.exe这样的生成文件了。将可执行文件所在目录加入path，就可以写一个test.c来测试一个clang了</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clang –Wall test.c –o test</span><br></pre></td></tr></table></figure>
+<p>下面是一个测试的例子：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">     &#123;</span><br><span class="line">           <span class="keyword">if</span> (i == <span class="number">2</span>)</span><br><span class="line">           &#123;</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;i);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i + <span class="number">1</span>);</span><br><span class="line">     &#125;</span><br><span class="line">     <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc –Wall –std=c99 test.c –o test_gcc.exe</span><br><span class="line">clang –Wall –std=c99 test.c –o test_clang.exe</span><br></pre></td></tr></table></figure>
+<p>编译均通过。下面是生成的可执行文件大小截图：</p>
+<p><img src="/chapimages/generate_size.png" alt=""></p>
+<p>看起来clang生成的可执行文件的确比gcc生成的可执行文件要小，当然，这么一个小例子也说明不了什么。继续……</p>
+<p>现在将源代码改出二个错误[一个算做逻辑错误，一个语法错误]，如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">     <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i++)</span><br><span class="line">     &#123;</span><br><span class="line">           <span class="keyword">if</span> (i = <span class="number">2</span>)<span class="comment">//这里改为赋值</span></span><br><span class="line">           &#123;</span><br><span class="line">               <span class="built_in">printf</span>(<span class="string">"%p\n"</span>, &amp;i);</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i + <span class="number">1</span>)<span class="comment">//这里故意去掉了分号</span></span><br><span class="line">         &#125;</span><br><span class="line">         <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先看gcc的错误和警告提示截图[编译命令同上]：</p>
+<p><img src="/chapimages/gcc_error.png" alt=""></p>
+<p>gcc在第7行，也就是注释的第1行，给出了一个警告建议，第12行，也就是大括号前给出了一个语法错误提示。</p>
+<p>下面再看clang的警告和错误提示截图[编译命令同上]：</p>
+<p><img src="/chapimages/clang_error.png" alt=""></p>
+<p>clang这里给出的语法错误就比较直观了，直接能看到哪里出现了错误，定位到具体位置，而且针对“逻辑错误”，给出修改建议。当然这也只是一个小小的错误，也说明不了什么，码农的尝鲜clang就到此了^_*。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/06/16/C99标准笔记/" rel="next" title="C99标准笔记">
+                <i class="fa fa-chevron-left"></i> C99标准笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/02/15/快速排序图解/" rel="prev" title="快速排序图解">
+                快速排序图解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMi8xNDI2Mw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">coding like a rookie</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="使用Carthage/CocoaPods工程如果你使用了第三方的二进制形式的Swift模块工程，这个工程并不是在你自己Xcode的工作空间中由你自己生成出来的，你可以选择下面的其中一种方法进行迁移。  在你的Xcode工作空间包含工程的源代码。 使用这种方法，你需要构建并迁移开源的工程到你自己的工程里面，使用Xcode7.3确保工程构建和链接都无误。包含开源工程中的文件到你自己的Xcode工作空间">
+<meta name="keywords" content="Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift3迁移指南-2">
+<meta property="og:url" content="http://bugcode.net/2016/07/21/Swift3迁移指南-2/index.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="使用Carthage/CocoaPods工程如果你使用了第三方的二进制形式的Swift模块工程，这个工程并不是在你自己Xcode的工作空间中由你自己生成出来的，你可以选择下面的其中一种方法进行迁移。  在你的Xcode工作空间包含工程的源代码。 使用这种方法，你需要构建并迁移开源的工程到你自己的工程里面，使用Xcode7.3确保工程构建和链接都无误。包含开源工程中的文件到你自己的Xcode工作空间">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-30T11:01:41.031Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swift3迁移指南-2">
+<meta name="twitter:description" content="使用Carthage/CocoaPods工程如果你使用了第三方的二进制形式的Swift模块工程，这个工程并不是在你自己Xcode的工作空间中由你自己生成出来的，你可以选择下面的其中一种方法进行迁移。  在你的Xcode工作空间包含工程的源代码。 使用这种方法，你需要构建并迁移开源的工程到你自己的工程里面，使用Xcode7.3确保工程构建和链接都无误。包含开源工程中的文件到你自己的Xcode工作空间">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2016/07/21/Swift3迁移指南-2/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Swift3迁移指南-2 | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">今朝有码今朝敲，莫待无码空长膘。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+    <a href="/tips" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />tips</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2016/07/21/Swift3迁移指南-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="coding like a rookie">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swift3迁移指南-2
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-07-21 11:50:11" itemprop="dateCreated datePublished" datetime="2016-07-21T11:50:11+08:00">2016-07-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-30 19:01:41" itemprop="dateModified" datetime="2018-06-30T19:01:41+08:00">2018-06-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="使用Carthage-CocoaPods工程"><a href="#使用Carthage-CocoaPods工程" class="headerlink" title="使用Carthage/CocoaPods工程"></a>使用Carthage/CocoaPods工程</h2><p>如果你使用了第三方的二进制形式的Swift模块工程，这个工程并不是在你自己Xcode的工作空间中由你自己生成出来的，你可以选择下面的其中一种方法进行迁移。</p>
+<ul>
+<li><p>在你的Xcode工作空间包含工程的源代码。</p>
+<p>使用这种方法，你需要构建并迁移开源的工程到你自己的工程里面，使用Xcode7.3确保工程构建和链接都无误。包含开源工程中的文件到你自己的Xcode工作空间里，并设置好你正在构建的工程的依赖工程scheme。如果你在Carthage的build目录下设置了framework的Swift的二进制模块的搜索路径，去掉设置的搜索路径或者直接清掉Carthage的build目录，要确保你所使用的Swift模块一定是由你自己的Xcode工作空间构建出来的。</p>
+</li>
+<li><p>一直等到你所使用的开源工程也更新到了Swift2.3或者Swift3</p>
+<p>可以按下面的步骤来迁移你的工程</p>
+<ul>
+<li>把你的工程当做是在Xcode7.3下构建</li>
+<li>使用迁移助手，且只应用迁移助手对你自己工程的源代码改动部分。</li>
+<li>构建之前，修改Carthage/CocoaPods依赖文件，指定其为已经迁移到Swift2.3或者Swift3的工程分支版本</li>
+<li>更新依赖，并尝试构建已经被迁移程序修改更新过源代码的工程。</li>
+</ul>
+</li>
+</ul>
+<h2 id="已知的迁移问题"><a href="#已知的迁移问题" class="headerlink" title="已知的迁移问题"></a>已知的迁移问题</h2><h3 id="Swift-标准库"><a href="#Swift-标准库" class="headerlink" title="Swift 标准库"></a>Swift 标准库</h3><ul>
+<li><p>迁移程序可能会对在<code>SetIndex</code>和<code>DictionaryIndex</code>使用索引方法的这种代码转换失败。</p>
+<ul>
+<li>解决方法：手动迁移用在集合对象上的索引方法。大致如下:<ul>
+<li><code>index.successor()</code> 修改为 <code>Collection.index(after: index)</code></li>
+<li><code>index.predecessor()</code> 修改为 <code>Collection.index(before: index)</code></li>
+<li><code>index.advancedBy(delta)</code> 修改为<code>Collection.index(index, offsetBy: delta)</code></li>
+<li><code>index.advancedBy(delta, limit: otherIndex)</code> 修改为<code>Collection.index(index, offsetBy: delta, limitedBy: otherIndex)</code></li>
+<li><code>index.distanceTo(otherIndex)</code> 修改为<code>Collection.distance(from: index, to: otherIndex)</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>在Swift2.2中<code>Unmanaged</code>类型有一个静态方法<code>fromOpaque(_:)</code>把<code>COpaquePointer</code>类型转换为<code>Unmanaged</code>类型和一个实例方法<code>toOpaque()</code>把未托管的引用类型转换为<code>COpaquePointer</code>类型 。在Swift3中这个变成了把<code>UnsafePointer&lt;Void&gt;</code>转换为<code>UnsafeMutablePointer&lt;Void&gt;</code>来匹配一个通用的传递给C的API的“上下文指针”，你可以简单的把用到<code>COpaquePointer</code>的移除即可(现在已重命名为<code>OpaquePointer</code>)。</p>
+</li>
+<li><p>如果你有任何的的自定义的集合类型，你可能会看到如下编译错误:“MyCollection’ does not conform to protocol ‘Collection”(MyCollection没有遵循Collection协议)。</p>
+<ul>
+<li>现在是由集合类型负责其自身的索引的自增/自减，要让你自己的集合类型遵循<code>Collection</code>协议，实现<code>func index(after: Index) -&gt; Index</code>方法，对于<code>BidirectionalCollection</code>这个集合类型，还要实现<code>func index(before: Index) -&gt; Index</code>方法。</li>
+</ul>
+</li>
+<li><p>如果你有一个使用了半开区间操作符生成的<code>Range</code>类型的变量(如 1..&lt;2)并且把它做一个<code>Sequence</code>来用(比如，用在一个<code>for-in</code>循环里)，你会看到如下错误：“type ‘Range’ does not conform to protocol ‘Sequence”(Range类型没有遵循Sequence协议)。</p>
+<ul>
+<li>修改方式就是把<code>Range</code>改为<code>CountbaleRange</code>。</li>
+</ul>
+</li>
+<li><p>用户可能需要手动修改 <code>Sequence.generate()</code> 为 <code>Sequence.makeIterator()</code>.</p>
+</li>
+<li><p>用户可能需要手动修改 <code>anyGenerator</code> 为 <code>AnyIterator</code>.</p>
+</li>
+<li><p>用户可能需要手动修改 <code>Range.start</code> 和<code>Range.end</code> 分别改为<code>Range.lowerBound</code> 和 <code>Range.upperBound</code>。</p>
+</li>
+<li><p>用户可能需要手动修改 <code>Collection.Index.Distance</code> 为<code>Collection.IndexDistance</code> (没有中间的点号)</p>
+</li>
+<li><p>访问<code>Collection.enumerated()</code>的枚举结果时，用户可能需要手动修改元组元素 <code>index</code> 为 <code>offset</code> 。</p>
+</li>
+<li><p><code>Printable</code> 和<code>DebugPrintable</code> 现在已分别重命名为 <code>CustomStringConvertible</code> 和<code>CustomDebugStringConvertible</code>。</p>
+</li>
+<li><p>如果在迁移索引区间之后使用集合的<code>indices</code>属性的时候报“<code>Range&lt;Index&gt;</code>没有遵循<code>Sequence</code>协议”的错。像下面这样修改：</p>
+<ul>
+<li><code>for _ in str.startIndex..</code> –&gt; <code>for _ in str.indices[str.startIndex..&lt;someIndex]{}</code></li>
+</ul>
+</li>
+<li><p><code>Zip2Sequence(_:_:)</code> 构造器已被移除; 使用 <code>zip(_:_:)</code>函数替代。</p>
+</li>
+<li><p>在<code>Collection</code>扩展中使用 <code>min</code>/<code>max</code> 会与<code>Collection</code>的本地方法冲突; 在 <code>min</code>/<code>max</code> 之前加<code>swift</code>就可以解决这个冲突。</p>
+</li>
+<li><p>在迁移程序会自动重命名代码中的类型名，新的类型名可能会与用户自定义的类型名冲突，解决这个问题需要你移除那些不必须的类型别名定义。</p>
+</li>
+<li><p><code>Selector()</code> 会被转换为 <code>nil</code>。</p>
+</li>
+<li><p><code>Unmanaged.toOpaque()</code> 会被转换为 <code>OpaquePointer(bitPattern:)</code></p>
+</li>
+<li><p><code>Range&lt;&gt;.reversed</code> 已经被移除; 用户可以调用<code>[].indices.reversed()</code>模拟实现这个功能。</p>
+</li>
+<li><p><code>&lt;Index&gt; ..&lt; &lt;Sequence&gt;.endIndex</code> 需要手动修改为<code>&lt;Sequence&gt;.indices.suffix(from: )</code>。</p>
+</li>
+<li><p>迁移程序不会重写Swift中不存在的类型的泛型约束。</p>
+<p>比如：</p>
+<p><code>func foo() &lt;C: CollectionType where C.Index: BidirectionalIndexType&gt;{}</code> 会被转换为 <code>func foo()&lt;C: BidirectionalCollection&gt; {}</code> 但其实应该转换为这样<code>func foo()&lt;C: Collection where C.Index: BidirectionalIndex&gt; {}</code>。</p>
+<p>​</p>
+</li>
+</ul>
+<h3 id="SDK"><a href="#SDK" class="headerlink" title="SDK"></a>SDK</h3><ul>
+<li><p>新SDK的release版本一些协议增加了一些<code>required</code>的方法(遵循协议必须要实现的方法)，迁移程序现在不会在你的源代码里加入这些方法(<code>required</code>方法)实现。</p>
+<ul>
+<li>解决办法就是手动在遵循这些协议的代码里添加<code>required</code>方法的实现。</li>
+</ul>
+</li>
+<li><p>在Swift3中很多Foundation中的“字符串类型”的API已经被改为使用结体的“包装类型”。比如新的<code>Notification.name</code></p>
+</li>
+<li><p><code>FileAttributeKey</code>是另一个由“字符串类型”改为使用结构体的“包装类型”，当像这样的类型被用在字典(比如<code>FileManager</code>中的 <code>attributesOfItem(atPath:)</code>方法的返回结果)上的时候，字符值通常需要使用<code>rawValue</code>属性提取出来。</p>
+<ul>
+<li><code>let mtime = try FileManager.default().attributesOfItem(atPath: &quot;/&quot;)[FileAttributeKey.size.rawValue] as? NSNumber</code></li>
+</ul>
+</li>
+<li><p>迁移程序会修改绝大部分用到<code>NSURL</code>的地方为<code>URL</code>，但是<code>NSURL</code>中的某些方法，像<code>checkResourceIsReachableAndReturnError</code>，没有使用Swift的错误处理机制，而是使用是外部参数来保存错误信息。而某些<code>URL</code>里类似的方法，如<code>checkResourceIsReachable</code>，如期的使用了Swift的错误处理机制。</p>
+<ul>
+<li><p>Swift3的迁移程序依然迁移时保留了<code>NSURL</code>方法，如果你想使用新的API里的<code>URL</code>类型，需要手动修改自己的代码。通用的处理url不可达的错误方式是使用<code>try?</code>:</p>
+<p><code>let isReachable = (try? resourceURL.checkResourceIsReachable()) ?? false)</code> </p>
+</li>
+<li><p>在<code>NSURL</code>中<code>port</code>属性是一个可选的<code>NSNumber</code>类型，同时对应在新的<code>URL</code>类型是一个可选的<code>Int</code>类型。Swift3的迁移程序迁移时保留了<code>NSURL</code>的属性，如果想使用新的<code>URL</code>类型需要手动修改代码为新的API。</p>
+</li>
+</ul>
+</li>
+<li><p>迁移程序会把大部分的<code>NSData</code>转换为<code>Data</code>，某些<code>NSData</code>中的方法操作<code>UnsafeMutablePointer&lt;Void&gt;</code>，相对于<code>Data</code>里面的方法使用<code>UnsafeMutablePointer&lt;UInt8&gt;</code>(相对于<code>Data.copyBytes(_:length:)</code>方法，<code>NSData.getBytes(_:length:)</code> 方法更容易接受)。需要注意，Swift类型的内存布局是不能保证的。</p>
+<ul>
+<li>迁移程序会依然保留使用<code>NSData</code>的方法;想用新API需要自己手动修改代码。</li>
+<li><code>NSData(contentsOfMappedFile: x)</code>可被修改为<code>Data(contentsOf: x, options: .mappedAlways)</code></li>
+<li><code>NSData(data: x)</code> 可以被修改为 <code>x</code></li>
+</ul>
+</li>
+<li><p>在Swift3中除非有更好的方式来代替<code>NSDate</code>，否则迁移程序都会保留使用<code>NSDate</code>，如：</p>
+<ul>
+<li><code>(x as NSDate).earlierDate(y)</code> 可以改为 <code>x &lt; y ? x : y</code></li>
+<li><code>(x as NSDate).laterDate(y)</code> 可以改为 <code>x &lt; y ? y : x</code></li>
+</ul>
+</li>
+<li><p>迁移程序可能不能正确的处理<code>NSEventSubtype</code> 枚举。</p>
+</li>
+<li><p>迁移程序可能不能正确处理属性的<code>setter</code>方法，导致出现这种：<code>setInstanceVariable = instanceVariable</code>。</p>
+<ul>
+<li>解决办法：修改<code>setter</code>为属性名字，如:<code>self.instanceVariable = instanceVariable</code></li>
+</ul>
+</li>
+<li><p>在新SDK中会有switch语句中新增了一些case语句，但迁移程序不会在你的代码里做处理。</p>
+<ul>
+<li>解决办法:手动加入新的switch语句中的case，并加入合适的可用性判定</li>
+</ul>
+</li>
+<li><p>错误:由<code>CALayer?</code>向下转换为<code>CALayer</code>只能可选解包;你是想使用’!’?</p>
+<ul>
+<li>去掉<code>as! CALayer</code>，用<code>!</code>代替</li>
+</ul>
+</li>
+<li><p>错误:枚举值<code>tv</code>不存在于类型<code>UIUserInterfaceIdiom</code>中</p>
+<ul>
+<li>改为<code>TV</code></li>
+</ul>
+</li>
+<li><p>迁移程序可能会错误的处理像<code>objc_ASSOCIATION_RETAIN</code>这种小写的枚举值。</p>
+<ul>
+<li>解决方法：把它们全部改为大写<code>OBJC_ASSOCIATION_RETAIN</code></li>
+</ul>
+</li>
+<li><p>迁移程序会转换全局常量为名称空间枚举，但可能并不会赋一个合适的<code>.rawValue</code>值，传入一个接受一个枚举值的函数时使用新的枚举类型。</p>
+</li>
+<li><p>迁移程序不会转换<code>NSNumber.unsignedLongValue</code></p>
+<ul>
+<li>解决办法：手动改为<code>.uintValue</code></li>
+</ul>
+</li>
+<li><p>迁移程序可能不会将<code>XCUIElementQuery.elementBound(by:)</code> 转换为<code>XCUIElementQuery.element(boundBy:)</code>。</p>
+</li>
+<li><p>一些类型现在已变成泛型(如：<code>NSCache</code> -&gt; <code>Cache</code>, <code>NSMapTable</code> -&gt;<code>MapTable</code>)，迁移到Swift3之后需要为它们加一个合适的泛型参数。</p>
+</li>
+<li><p>迁移程序可能不能正确的将 <code>NSApplicationDelegate</code>类的<code>applicationShouldTerminateAfterLastWindowClosed(_:)</code> 方法转换为<code>applicationShouldTerminate(afterLastWindowClosed:)</code>, 这会引发一个警告： “Instance method ‘…’ nearly matches optional requirement ‘…’ of protocol NSApplicationDelegate”。</p>
+<ul>
+<li>解决办法：将方法名改回<code>applicationShouldTerminateAfterLastWindowClosed</code></li>
+</ul>
+</li>
+<li><p>如果你在一个子类遵循一个Objective-C协议，并实现了其可选的的方法，你会看到这样一个警告：“Instance method ‘…’ nearly matches optional requirement ‘…’ of protocol ‘…’”</p>
+<ul>
+<li>解决方法：在实现的可选方法之前添加<code>@objc(objectiveC:name:)</code>属性。</li>
+</ul>
+</li>
+<li><p>使用字面量做为选项现在需要调用对应选项的构造器，如：<code>NSWindowStyleMask(rawValue: 8345)</code></p>
+</li>
+<li><p>迁移程序不会修改类似这种有相同值类型的<code>NSMutable*</code>(如：<code>NSMutableData</code> -&gt; <code>Data</code>, <code>NSMutableURLSession</code> -&gt; <code>URLSession</code>)，但绝大部分SDK的函数现在接收新的值类型。</p>
+<ul>
+<li>修改为与它们的值类型等同的，小心处理引用与值的转换。快速的解决办法是直接把它们转换为需要的类型(如 <code>as Data</code>)，但是这可能会造成额外的拷贝。</li>
+</ul>
+</li>
+<li><p>如果你定义过的一个泛型与现在某个Foundaiton类冲突。迁移程序可能会在这个类用于一个不同的目标的时候错误的移除掉泛型参数。</p>
+<ul>
+<li>如果你定义的类与Foundation有冲突，首先重命名类以防止产生冲突，或者回退那些被去掉的泛型参数。</li>
+</ul>
+</li>
+<li><p>迁移到Swift3之后，你会看到类似这样的错误：“Extension of a generic Objective-C class cannot access the class’s generic parameters at runtime”</p>
+<ul>
+<li>当尝试调用一个Objective-C中泛型类中含有泛型参数的方法时，可以通过调一个API产生去掉self属性的变量来解决这个问题。如：<code>let typeErasedSelf = self as! MyObjCType&lt;AnyObject&gt;</code></li>
+</ul>
+</li>
+<li><p>如果代码中调用了<code>self.init(...)</code>，这时在迁移到Swift过程中就会错误的将<code>self.init</code>转换为<code>self.dynamicType.init</code>，这时会导致这样的错误：“return from initializer without initializing all stored properties”。</p>
+<ul>
+<li>解决方法：去掉<code>.dynamicType</code></li>
+</ul>
+</li>
+<li><p>迁移程序在转换类似这样的函数时<code>Pasteboard.￼readObjects(forClasses:options:</code>)，会强制重命名第一个参数，比如把NSURL.self改为URL.self，这样就会导致一个编译错误;解决这个问题就是去掉迁移程序做出的改动。</p>
+</li>
+<li><p>迁移程序在转换<code>NSData(bytes:length:deallocator:)</code>时，并不会修改析构器的类型。</p>
+<ul>
+<li>解决办法：将<code>(UnsafeMutablePointer&lt;Void&gt;, Int) -&gt; Void</code>修改为<code>(UnsafeMutablePointer&lt;Int8&gt;, Int) -&gt; Void</code></li>
+</ul>
+</li>
+<li><p>某些方法会标记为在watchOS中不可用，但是对于iOS仍然是必须的，如果出现了这样不能重写某些不可用的方法的错误，请使用<code>#if os(iOS)</code>块将对应的代码包起来。</p>
+</li>
+<li><p>用户可能需要手动将<code>String(contentsOfURL:usedEncoding:)</code>改为<code>String(contentsOf:usedEncoding:)</code>，现在这个方法在<code>usedEncoding</code>参数上用<code>inout String.Encoding</code>代替了<code>UnsafeMutablePointer</code> </p>
+</li>
+<li><p>有必要手动将<code>NSBundle.url(orResource:withExtension:)</code>修改为<code>Bundle.urlForResource(_ :withExtension:subdirectory:inBundleWith:)</code></p>
+</li>
+<li><p>在迁移程序自动迁移之后一些值类型由<code>NSURL</code>变为<code>URL</code>，导致出现不可用成员的错误。解决这个问题，需要手动添加类型转换，用<code>URL</code>的例子，就像这样<code>x as NSURL</code>。</p>
+</li>
+<li><p>用户可能需要通过类型推断来手动简化选项设置。如：修改<code>DispatchQueue.global(attributes: DispatchQueue.GlobalAttributes.qosDefault)</code>为<code>DispatchQueue.global(attributes: .qosDefault)</code></p>
+</li>
+<li><p>尾闭包可能由于名字变得更短而产生歧义，可以通过在闭包参数加参数标签来解决。</p>
+<p>比如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> parameterTree: <span class="type">AUParameterTree</span></span><br><span class="line">parameterObserverToken = parameterTree.tokenByAddingParameterObserver &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>变为</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parameterObserverToken = parameterTree.token &#123;...&#125;</span><br></pre></td></tr></table></figure>
+<p>歧义是由于其他的tocken(:)方法，修改为加入参数标签</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">parameterObserverToken = parameterTree.token(byAddingParameterObserver: &#123;...&#125;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Dispatch</p>
+<ul>
+<li><p><code>dispatch_once</code>函数在Swift中不再可用。在Swift中你可以使用延迟初始化全局或者静态属性来达到由<code>dispathc_once</code>提供的确保只调用一次的功能。例如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> myGlobal = &#123; … global <span class="built_in">contains</span> initialization <span class="keyword">in</span> a call to a closure … &#125;()</span><br><span class="line">  <span class="number">_</span> = myGlobal  <span class="comment">// using myGlobal will invoke the initialization code only the first time it is used.</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>迁移程序可能不能正确处理多个使用相同的token在不同的静态变量中调用<code>dispatch_once</code>的情况。</p>
+</li>
+<li><p>调用<code>dispatch_after</code>可能会导致被迁移转换为错误的参数标签：如果你看到这样的错误</p>
+<p> <em>“Argument labels ‘(when:, block:)’ do not match any available overloads”</em> ，把<code>block</code>改为<code>execute</code>即可修复。</p>
+</li>
+<li><p>现在针对每个<code>DispatchSource</code>类型都有特定的协议。你需要修改<code>dispatch_source_t</code> 为其中一个特定的协议，比如<code>DispatchSourceTimer</code>, <code>DispatchSourceProcess</code>,等合适的。</p>
+</li>
+<li><p>Dispatch 队列API现在使用这个 <code>DispatchAttributes</code> <code>OptionSet</code>。如果你之前使用</p>
+<p><code>dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_DEFAULT, 0))</code>，现在你使用<code>DispatchQueue(label: name, attributes: [.serial, .qosDefault])</code>这里的选项设置。</p>
+</li>
+<li><p>迁移程序会错误的把<code>dispatch_get_global_queue(_:_:)</code> 转换为<code>DispatchQueue.global(_:_:)</code>来代替<code>DispatchQueue.global(attributes:)</code>。</p>
+<ul>
+<li>解决方法：移除第二个参数，确保第一个参数是<code>DispatchQueue.GlobalAttributes</code>的枚举值。</li>
+</ul>
+</li>
+<li><p><code>dispatch_get_specific</code> 不再带一个<code>UnsafeMutablePointer</code>参数，并且现在它不会加上必需的参数标签。</p>
+<ul>
+<li>解决方法：替换<code>UnsafeMutablePointer&lt;Void&gt;</code>的key为<code>DispatchSpecificKey&lt;T&gt;</code>，同时加上缺少的<code>key</code>标签。</li>
+</ul>
+</li>
+<li><p><code>dispatch_block_t</code> 不会自动转换为<code>(Void) -&gt; Void</code>。</p>
+</li>
+<li><p><code>dispatch_qos_class_t</code> 不再是必需的;用户可以使用Swift的选项设置语法设置<code>DispatchQueueAttributes</code> 成员为自己想要的配置。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Swift-3语言细节"><a href="#Swift-3语言细节" class="headerlink" title="Swift 3语言细节"></a>Swift 3语言细节</h3><ul>
+<li><p>迁移程序不会转换<code>rand()</code>用法，这个函数现在不能用了。需要使用<code>arc4random()</code>。</p>
+<ul>
+<li>解决方法：将所有的<code>rand()</code>用法都改成<code>arc4random()</code>和<code>arc4random_uniform()</code>，谨记<code>arc4random()</code>返回一个<code>UInt32</code>而不是<code>Int32</code>。</li>
+</ul>
+</li>
+<li><p>迁移程序不能完全转换接受<code>ImplicitlyUnwrappedOptional</code>类型参数的闭包。</p>
+<ul>
+<li>解决方法：提升为使用标准可选类型。</li>
+</ul>
+</li>
+<li><p>迁移程序可能错误的在需要<code>!</code>的可选类型隐式解包的值的后面插入<code>?</code>，这允许空值静默传播代替确定性陷阱。</p>
+<ul>
+<li>使用<code>!</code>来代替<code>?</code>，</li>
+</ul>
+</li>
+<li><p>迁移程序不转换不再返回可选值的<code>if let</code>语句。</p>
+<ul>
+<li>解决方法：在<code>if let</code>移除对应的语句，如果你需要一个词法定界，可以它对应的语句放到<code>do</code>语句中。</li>
+</ul>
+</li>
+<li><p>迁移程序不会添加为枚举值添加前置句点。当迁移程序把枚举值都变为小写时会造成冲突。</p>
+<ul>
+<li>解决方法：为没有前置句点的枚举值手动添加句点</li>
+</ul>
+</li>
+<li><p>去掉NS前缀的Foundaiton中的类型冲突的自定义属性冲突，会自动添加模块标识的类型名字。例如：如果有这样的定义<code>var URL:NSURL</code>，它会被重写为<code>var URL: Foundation.URL</code>。</p>
+<ul>
+<li>解决方法：在进行代码迁移之前把这样的属性重命名，这样就会冲突了。Swift的API设计指南建议这样的应该是小写的。</li>
+</ul>
+</li>
+<li><p>迁移程序不会处理C形式的递减的for循环，如：<code>for var i = right; i &gt; left; i-- {}</code></p>
+<ul>
+<li>解决方法：手动修改循环为for-in形式的或者while形式的循环。</li>
+</ul>
+</li>
+<li><p>迁移程序可能错误的在自定义的闭包类型添加括号。如：从<code>inout State -&gt; Element?</code>变为<code>inout (State) -&gt; Element?</code>，正确的修改应该是<code>(inout State) -&gt; Element?</code></p>
+</li>
+<li><p>迁移程序会给SequenceType添加不必要的Swift模块标识符，如：</p>
+<p><code>struct MySequence: SequenceType</code> =&gt;<code>struct MySequence: Swift.Sequence</code></p>
+<ul>
+<li>解决办法：移除前置的<code>Swift</code></li>
+</ul>
+</li>
+<li><p>迁移程序可能会略掉小写之后的枚举值。</p>
+<ul>
+<li>解决方法：手动处理一下迁移程序忽略掉的小写的枚举值。</li>
+</ul>
+</li>
+</ul>
+<h3 id="Swift-2-3"><a href="#Swift-2-3" class="headerlink" title="Swift 2.3"></a>Swift 2.3</h3><ul>
+<li>迁移程序在迁移到Swift2.3的过程中可能会错误的转换<code>Range&lt;T&gt;</code>为<code>CountableRange&lt;T&gt;</code>。<ul>
+<li>解决办法：改回<code>Range&lt;T&gt;</code>，Swift2.3没有<code>CountableRange&lt;T&gt;</code>，只有Swift3有。</li>
+<li>迁移程序会为使用了<code>dispatch_queue_set_specific()</code>添加一行这样的<code>/*Migrator FIXME: Use a variable of type DispatchSpecificKey*/</code>注释，这个只在Swift3中有用，如果是迁移到Swift2.3，可以忽略这个。</li>
+</ul>
+</li>
+</ul>
+<h3 id="其他杂项"><a href="#其他杂项" class="headerlink" title="其他杂项"></a>其他杂项</h3><ul>
+<li>如果在你的工程里有多个scheme包含了不同的target，你只需要关注你要迁移的那个。你应该手动选项一个新的scheme。此时运行<em>Edit-&gt;Convert-&gt;To Current Swift Syntax</em>迁移其他的scheme，或者创建一个scheme包括工程内所有的target，并且保证在运行迁移助手工具的时候已选中这个scheme。</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"># Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/18/6-7月杂记/" rel="next" title="6/7月杂记">
+                <i class="fa fa-chevron-left"></i> 6/7月杂记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/24/Swift3已完成的变动提案列表/" rel="prev" title="Swift3已完成的变动提案列表">
+                Swift3已完成的变动提案列表 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMi8xNDI2Mw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">coding like a rookie</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#使用Carthage-CocoaPods工程"><span class="nav-number">1.</span> <span class="nav-text">使用Carthage/CocoaPods工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#已知的迁移问题"><span class="nav-number">2.</span> <span class="nav-text">已知的迁移问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift-标准库"><span class="nav-number">2.1.</span> <span class="nav-text">Swift 标准库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SDK"><span class="nav-number">2.2.</span> <span class="nav-text">SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift-3语言细节"><span class="nav-number">2.3.</span> <span class="nav-text">Swift 3语言细节</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Swift-2-3"><span class="nav-number">2.4.</span> <span class="nav-text">Swift 2.3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他杂项"><span class="nav-number">2.5.</span> <span class="nav-text">其他杂项</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

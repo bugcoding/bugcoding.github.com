@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="对于文本的编辑器，适合自己才是最好的。 gVim（for windows【下称vim】）的简单初级配置，一些初级常用配置（PS:网上遍地都是）：  vim字体选择： 菜单栏菜单edit选项里的select font子项，会弹出字体选择，另一种方式就是命令行里：:set guifont=*，会直接弹出字体选择界面。但是这样儿的修改只对当前vim窗口有效，保持更改就那得写到vimrc文件里(vimrc">
+<meta name="keywords" content="Vim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="写给某鸟的Vim初始配置">
+<meta property="og:url" content="http://bugcode.net/2014/01/03/写给某鸟的Vim初始配置/index.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="对于文本的编辑器，适合自己才是最好的。 gVim（for windows【下称vim】）的简单初级配置，一些初级常用配置（PS:网上遍地都是）：  vim字体选择： 菜单栏菜单edit选项里的select font子项，会弹出字体选择，另一种方式就是命令行里：:set guifont=*，会直接弹出字体选择界面。但是这样儿的修改只对当前vim窗口有效，保持更改就那得写到vimrc文件里(vimrc">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-30T11:01:41.146Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="写给某鸟的Vim初始配置">
+<meta name="twitter:description" content="对于文本的编辑器，适合自己才是最好的。 gVim（for windows【下称vim】）的简单初级配置，一些初级常用配置（PS:网上遍地都是）：  vim字体选择： 菜单栏菜单edit选项里的select font子项，会弹出字体选择，另一种方式就是命令行里：:set guifont=*，会直接弹出字体选择界面。但是这样儿的修改只对当前vim窗口有效，保持更改就那得写到vimrc文件里(vimrc">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2014/01/03/写给某鸟的Vim初始配置/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>写给某鸟的Vim初始配置 | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">今朝有码今朝敲，莫待无码空长膘。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+    <a href="/tips" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />tips</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2014/01/03/写给某鸟的Vim初始配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="coding like a rookie">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">写给某鸟的Vim初始配置
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2014-01-03 23:26:30" itemprop="dateCreated datePublished" datetime="2014-01-03T23:26:30+08:00">2014-01-03</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-30 19:01:41" itemprop="dateModified" datetime="2018-06-30T19:01:41+08:00">2018-06-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>对于文本的编辑器，适合自己才是最好的。</em></p>
+<p>gVim（for windows【下称vim】）的简单初级配置，一些初级常用配置（PS:网上遍地都是）：</p>
+<ol>
+<li><p>vim字体选择：</p>
+<p>菜单栏菜单edit选项里的select font子项，会弹出字体选择，另一种方式就是命令行里：:set guifont=*，会直接弹出字体选择界面。但是这样儿的修改只对当前vim窗口有效，保持更改就那得写到vimrc文件里(vimrc，windows下vim安装目录根目录下的一个文件)，set guifont=你选择字体的名称:h字号大小:cANSI，如：set guifont=Monaco:h11:cANSI，这样写入vimrc中字体配置就永久有效了。不过还有可能不只在windows下使用可能也会在linux下使用这同一个配置文件，那这个命令就不管用了，怎么办呢，写一段脚本区分系统来使用不同的字体设置如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (has('win32') || has('win64'))</span><br><span class="line">	set guifont=字体名称:h字号大小:cANSI</span><br><span class="line">elseif has('unix')</span><br><span class="line">	let &amp;guifont="字体名称 字号大小"</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+<p>这样添加到vimrc中，vim就会根据系统的不来选择设置好的不同的字体。</p>
+</li>
+<li><p>主题选择：<br>vim默认的主题看着不怎么舒服，先打开一个代码文件，edit菜单里有color scheme子项，试试每个主题，如果没有合适的就去<a href="http://www.vim.org" target="_blank" rel="noopener">vim官网</a>官网scripts里搜索一下，找一个适合自己的主题，文件都是vim后缀，下载好的文件放到vimfiles（也就是vim安装根目录下的vimfiles文件夹）文件夹下的color文件夹下（比如我的就是d:/Program Files/Vim/vimfiles/color/下），持久使用就要写入vimrc文件，如下命令：colorscheme 主题名字，此主题就会成为vim默认主题（比如：colorscheme desertEx），可以命令行里查看当前主题名称：:colorscheme。ps：可以自行打开主题文件进行相关配色修改。</p>
+</li>
+<li><p>行号显示：<br>写代码的时候常常需要查看代码行数，vim内置行号显示，默认不开启，如想显示命令行里输入：:set nu，想永久显示，将此句写入vimrc中(写入vimrc中set前没有冒号，下同)。想关闭行号显示，命令：:set nonu即可，默认的行号显示与vim窗口左边有一段距离，有时候会感觉很不舒服，可以设置行号显示宽度：:set numberwidth=宽度数值，大于0的数值，设置为1即紧靠左边vim窗体。行号的颜色也想更改，怎么办？二个方法，一个是打开对应的使用的主题的文件，找到对应的LineNr项，更改其前景颜色值到满意为止。另一种方法：直接在vimrc里设置LineNr的前景色：:hi LineNr guifg=颜色值（如：:hi LineNr guifg=#555555）。</p>
+</li>
+<li><p>界面其他设置：<br>默认的vim带菜单栏和工具栏，都是可以去掉的，隐藏工具栏：set guioptions-=T，隐藏菜单栏：set guioptions-=m。（写入vimrc即可）<br>vim的启动位置（相对于windows窗口左上角）：winpos left top（left相对于左边的距离，top相对于上边的距离，像素单位，写入vimrc即<br>可生效）。<br>窗口的大小（以行数和列数来计），set line=行数 columns=列数（写入vimrc）。如果想启动后窗口就是最大化状态，可以写入：       autocmd guienter * simalt ~x即可。<br>隐藏底部的滚动条：set guioptions-=b。<br>隐藏左侧的滚动条：set guioptions-=L。<br>设置文本行距：set linespace=整数值。<br>可以高亮显示与光标下匹配的括号：setshowmatch<br>设置光标所在行高亮：set cursorline，设置高亮行的颜色：hi cursorline guibg=颜色值。<br>始终显示状态栏：set statusline=2。<br>所有模式均可使用鼠标：set mouse=n。<br>去掉vim的屏幕闪烁：set novisualbell。<br>去掉vim的错误提示声音：set noerrorbells。<br>设置命令行的高度：set cmdheight=整数值，默认是1。<br>状态栏的显示，状态栏可以自己加以定制，显示不同的内容：这里只给出一种示例：set statusline=%F%m%r%w\ [FORMAT=%{&amp;ff}][TYPE=%Y][POS=%l,%v][ASC=%b][HEX=0X%B]\，给出的是文件名，文件格式，文件类型，光标位置，位置下字符ascii杩，十六进制值，当然还有很多内容可以进行自己定制的显示，例如还可以让状态栏在显示上述的基础上显示当前的时间，set statusline+=[%{strftime(\”%m-%d\ %H:%M:%S\”)}]，这样就会以月日时分秒的方式来显示当前时间（具体其他定制查看帮助：help statusline或者google）。还可以在不同的模式下让状态栏显示不同的颜色，只需要地vimrc中写入一段脚本函数来监视当前的模式是进入何种模式，然后对应改变其状态栏的颜色即可。</p>
+</li>
+<li><p>其他文件相关设置：<br>默认vim每次打一个文件都会生成一个交换文件一个备份文件，想要关闭可以：set nobackup 。setnoswapfile。set nowb<br>开启语法高亮并开启文件类型的自动检测：syntax on 。filetype on<br>关闭vi兼容模式（即不使用vi的操作方式）：set nocompatible<br>设置自动缩进和智能缩进： set autoindent。set smartindent<br>设置c语言样式的自动缩进：set cindent。<br>设置自动对齐：set autoindent。<br>为对应的文件载入相应的缩进文件： filetype indent on<br>设置缩进的宽度，即一个tab的宽度：set tabstop=4。setsofttabstop=4<br>设置vim的文件编码：set encoding=utf-8（vim自己使用的编码）<br>设置vim保存文件时的文件编码：set fileencoding=utf-8<br>vim检测文件的编码：set fencs=utf-8,ucs-bom,gb18030,cp936,latin-1<br>可以设置vim文本的自动格式化：set formatoptions=tcrqn</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vim/" rel="tag"># Vim</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/01/01/说到烂的面试题-链表是否存在环以及环入口点/" rel="next" title="说到烂的面试题-链表是否存在环以及环入口点">
+                <i class="fa fa-chevron-left"></i> 说到烂的面试题-链表是否存在环以及环入口点
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/02/12/C语言的隐式类型提升和java的类型兼容/" rel="prev" title="C语言的隐式类型提升和java的类型兼容">
+                C语言的隐式类型提升和java的类型兼容 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMi8xNDI2Mw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">coding like a rookie</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="上一篇说的是java的本地调用，即使用jni完成java调用c/c++编写的代码，这回仍然是使用jni，不过是倒过来，使用c/c++调用java编写的代码。本次使用环境是：centos5.4，gcc4.9.0，jdk1.6_45。  配置相关环境。   配置jdk环境，加入JAVA_HOME环境变量，即jdk目录加入path。   配置加载jvm所需要的libjvm.so动态库，所以需要指定LD_">
+<meta name="keywords" content="C++,Java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C和C++与Java互相调用(续)">
+<meta property="og:url" content="http://bugcode.net/2015/06/15/C和C-与Java互相调用-续/index.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="上一篇说的是java的本地调用，即使用jni完成java调用c/c++编写的代码，这回仍然是使用jni，不过是倒过来，使用c/c++调用java编写的代码。本次使用环境是：centos5.4，gcc4.9.0，jdk1.6_45。  配置相关环境。   配置jdk环境，加入JAVA_HOME环境变量，即jdk目录加入path。   配置加载jvm所需要的libjvm.so动态库，所以需要指定LD_">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-30T11:01:40.850Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C和C++与Java互相调用(续)">
+<meta name="twitter:description" content="上一篇说的是java的本地调用，即使用jni完成java调用c/c++编写的代码，这回仍然是使用jni，不过是倒过来，使用c/c++调用java编写的代码。本次使用环境是：centos5.4，gcc4.9.0，jdk1.6_45。  配置相关环境。   配置jdk环境，加入JAVA_HOME环境变量，即jdk目录加入path。   配置加载jvm所需要的libjvm.so动态库，所以需要指定LD_">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2015/06/15/C和C-与Java互相调用-续/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>C和C++与Java互相调用(续) | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">今朝有码今朝敲，莫待无码空长膘。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+    <a href="/tips" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />tips</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2015/06/15/C和C-与Java互相调用-续/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="coding like a rookie">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">C和C++与Java互相调用(续)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2015-06-15 22:38:12" itemprop="dateCreated datePublished" datetime="2015-06-15T22:38:12+08:00">2015-06-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-30 19:01:40" itemprop="dateModified" datetime="2018-06-30T19:01:40+08:00">2018-06-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上一篇说的是java的本地调用，即使用jni完成java调用c/c++编写的代码，这回仍然是使用jni，不过是倒过来，使用c/c++调用java编写的代码。本次使用环境是：<strong>centos5.4</strong>，<strong>gcc4.9.0</strong>，<strong>jdk1.6_45</strong>。</p>
+<ol>
+<li><p>配置相关环境。</p>
+<p>  配置jdk环境，加入<strong>JAVA_HOME</strong>环境变量，即jdk目录加入path。</p>
+<p>  配置加载jvm所需要的libjvm.so动态库，所以需要指定<strong>LD_LIBRARY_PATH</strong>这个环境变量，也就是libjvm.so这个动态库所在的路径， 通常都是：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LD_LIBRARY_PATH=$&#123;JAVA_HOME&#125;/jre/lib/i386/client:$LD_LIBRARY_PATH</span><br></pre></td></tr></table></figure>
+<p>  这样程序运行的时候如果在lib里找不到jvm这个动态库，就会去<strong>LD_LIBRARY_PATH</strong>所指定路径下去找。c/c++相关编译环境linux下自带。</p>
+</li>
+<li><p>因为是c/c++调用java代码，然后就先写java的测试代码。写了一个简单的测试类，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CCallJavaTest</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="comment">//类成员</span></span><br><span class="line">    <span class="keyword">public</span> String mTestStr;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONST_VAL = <span class="number">10</span>;</span><br><span class="line">    <span class="comment">//静态方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">staticCallTest</span><span class="params">(<span class="keyword">int</span> val)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"[staticCallTest] called"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Integer(val).toString();</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//成员方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getVal</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"[getVal] called"</span>);</span><br><span class="line">        <span class="keyword">return</span> CONST_VAL + <span class="number">10</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getTestStr</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.mTestStr;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac CCallJavaTest.java</span><br></pre></td></tr></table></figure>
+<p>无错生成.class文件，这里只是一个简单的测试，所以没有指定包名，如果指定包名，下文中使用jni在寻找java类的时候就需要全名（包名/类名这种形式，下文会说明）。</p>
+</li>
+<li><p>查看刚才写的测试类的签名，下面用jni获取类内部类型（包括方法和成员）会用到，这里用到一个jdk里自带的一个分析工具，叫做javap，终端里直接键入<em>javap -help</em>查看帮助。</p>
+<p><strong>-s</strong>选项是将内部的类型的签名打印出来，<strong>-private</strong>选项是输出所有的类与成员。这里就使用这二个选项，将输出重定向到一个文件中，以便之后查看：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javap -private -s CCallJavaTest &gt; CCallJavaTest.sig</span><br></pre></td></tr></table></figure>
+<p>查看sig文件会看到类似如下内容：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CCallJavaTest</span> <span class="keyword">extends</span> <span class="title">java</span>.<span class="title">lang</span>.<span class="title">Object</span></span>&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> java.lang.String mTestStr;</span><br><span class="line"></span><br><span class="line">  Signature: Ljava/lang/String;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CONST_VAL;</span><br><span class="line"></span><br><span class="line">  Signature: I</span><br><span class="line"></span><br><span class="line">CCallJavaTest();</span><br><span class="line"></span><br><span class="line">  Signature: ()V</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> java.lang.<span class="function">String <span class="title">staticCallTest</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"></span><br><span class="line">  Signature: (I)Ljava/lang/String;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getVal</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  Signature: ()I</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> java.lang.<span class="function">String <span class="title">getTestStr</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">  Signature: ()Ljava/lang/String;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Signature部分就是我们需要的部分。</p>
+</li>
+<li><p>编写c代码（这里使用c语言）通过jni调用java代码，先上代码再看细节：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;assert.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//Java虚拟机</span></span><br><span class="line">    JavaVM *jvm = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//Jni运行环境</span></span><br><span class="line">    JNIEnv *env = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="comment">//虚拟机初始化参数</span></span><br><span class="line">    JavaVMInitArgs jvm_args;</span><br><span class="line">    <span class="comment">//java虚拟机参数, 这里只使用classpath这一项，所以长度为1</span></span><br><span class="line">    JavaVMOption opt[<span class="number">1</span>];</span><br><span class="line">    <span class="comment">//设置初始化参数（classpath 为当前目录）</span></span><br><span class="line">    opt[<span class="number">0</span>].optionString = <span class="string">"-Djava.class.path=."</span>;</span><br><span class="line">    <span class="comment">//初始化虚拟机初始化参数</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;jvm_args, <span class="number">0</span>, <span class="keyword">sizeof</span>(jvm_args));</span><br><span class="line">    <span class="comment">//设置jni环境版本</span></span><br><span class="line">    jvm_args.version = JNI_VERSION16;</span><br><span class="line">    <span class="comment">//参数的个数</span></span><br><span class="line">    jvm_args.nOptions = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">//虚拟机参数</span></span><br><span class="line">    jvm_args.options = opt;</span><br><span class="line">    <span class="comment">//创建java虚拟机 返回0为启动成功，其他数值的意义在头文件中有定义</span></span><br><span class="line">    <span class="keyword">long</span> jvm_stat = JNI_CreateJavaVM(&amp;jvm, (<span class="keyword">void</span> **)&amp;env, &amp;jvm_args);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//错误处理</span></span><br><span class="line">    <span class="keyword">if</span> (jvm_stat)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%s\n"</span>, <span class="string">"JVM Create Error!"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//找到类定义</span></span><br><span class="line">    jclass cls = (*env)-&gt;FindClass(env, <span class="string">"CCallJavaTest"</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//找到做相应处理</span></span><br><span class="line">    <span class="keyword">if</span> (cls != <span class="number">0</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//获取静态方法的ID, 通过方法签名和方法的名字</span></span><br><span class="line">        jmethodID static_method = (*env)-&gt;GetStaticMethodID(env, cls,</span><br><span class="line">                            <span class="string">"staticCallTest"</span>, <span class="string">"(I)Ljava/lang/String"</span>);</span><br><span class="line">        <span class="comment">//找到方法</span></span><br><span class="line">        <span class="keyword">if</span> (static_method)</span><br><span class="line">        &#123;</span><br><span class="line">            jint val = <span class="number">1024</span>;</span><br><span class="line">            <span class="comment">//调用静态方法并获取返回值</span></span><br><span class="line">            jstring return_str = (jstring)(*env)-&gt;CallStaticObjectMethod(env,</span><br><span class="line">                                                    cls, static_method, val);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">char</span> trans_str = (env)-&gt;GetStringUTFChars(env, return_str, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"%s\n"</span>, trans_str);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//释放内存(减引用)</span></span><br><span class="line">            (*env)-&gt;ReleaseStringUTFChars(env, return_str, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//通过新建对象调用方法, 调用默认构造方法</span></span><br><span class="line">        jobject obj = (*env)-&gt;AllocObject(env, cls);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!obj)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">"%s\n"</span>, <span class="string">"Alloc New Object Error!"</span>);</span><br><span class="line">            <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//调用类成员方法</span></span><br><span class="line">        jmethodID member_method = (*env)-&gt;GetMethodID(env, cls, <span class="string">"getVal"</span>, <span class="string">"()I"</span>);</span><br><span class="line">        <span class="keyword">if</span> (member_method)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//调用成员方法</span></span><br><span class="line">            jint res = (jint)(*env)-&gt;CallObjectMethod(env, obj, member_method);</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"[%s] %d\n"</span>, <span class="string">"Call Member Method"</span>, (<span class="keyword">int</span>)res);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//获取类成员</span></span><br><span class="line">        jfieldID member_field = (jfieldID)(*env)-&gt;GetFieldID(env, cls,</span><br><span class="line">                                    <span class="string">"mTestStr"</span>, <span class="string">"Ljava/lang/String;"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (member_field)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//对象成员的新的成员值</span></span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">char</span> *modify_str = <span class="string">"new class member"</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//分配待传参数</span></span><br><span class="line">            jstring arg_str = (*env)-&gt;NewStringUTF(env, modify_str);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//设置新的成员值</span></span><br><span class="line">            (*env)-&gt;SetObjectField(env, obj, member_field, arg_str);</span><br><span class="line"></span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="comment">//查看新的string的值</span></span><br><span class="line">        member_method = (*env)-&gt;GetMethodID(env, cls, <span class="string">"getTestStr"</span>,</span><br><span class="line">                                        <span class="string">"()Ljava/lang/String;"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (member_method)</span><br><span class="line">        &#123;</span><br><span class="line">            jstring new_set_str = (jstring)(*env)-&gt;CallObjectMethod(env,</span><br><span class="line">                                                        obj, member_method);</span><br><span class="line">            <span class="keyword">const</span> <span class="keyword">char</span> new_c_str = (env)-&gt;GetStringUTFChars(env, new_set_str, <span class="number">0</span>);</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">"[new set str]: %s\n"</span>, new_c_str);</span><br><span class="line">            (*env)-&gt;ReleaseStringUTFChars(env, new_set_str, <span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//使用完成销毁虚拟机</span></span><br><span class="line">        (*jvm)-&gt;DestroyJavaVM(jvm);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注释已经算详细了，大体的步骤：</p>
+<p>1）初始化jni环境，因为都是基于jni来操作的，初始化创建并加载java虚拟机（jvm），因为java生成的字节码需要在jvm中运行。因为就有一个java类在当前目录中，所以JavaVMOption的长度为1，只指定了一个classpath参数。通过JNI_CreateJavaVM函数创建jvm。</p>
+<p> 2）创建了jvm之后就可以执行java代码了，但是要找到java的类，才能调用方法，获取成员，所以接下来就是找到要装载的java类。通过jni提供的FindClass方法传入java的类名，找到对应的类。（C语言调用：（*env）-&gt;FindClass(env, “ClassName”);C++调用：env-&gt;FindClass(“ClassName”);）返回的jclass不为空则找到了对应的类。通过找到的类就可以进行访问成员，调用方法操作了。</p>
+</li>
+<li><p>现在得到了java类，还得继续通过类获取方法，（这里就用到javap所生成出来的类文件的签名了）</p>
+<p>1）静态方法。静态方法是不需要实例化对象的，它是类级的。可以通过类名.静态方法名来调用。jni提供了GetStaticMethodID函数通过方法名和方法签名来获取类的静态方法，提供了CallStaticObjectMethod函数来调用获取到的方法。GetStaticMethodID返回一个jni的包装类型jmethodID，对应方法的ID，再把这个ID传给CallStaticObjectMethod函数，通过这个获取到的ID来调用对应的方法。代码中的第42行，GetStaticMethodID函数的最后一个参数就是这个方法的签名，括号里的是方法的形参类型，后面的是方法的返回类型，这里使用的就是javap直接分析出来的对应的签名（区别方法重载）。代码中42-54行就是通过类获取静态方法再调用并获得返回值的过程。</p>
+<p>2）成员方法。需要通过对象来调用。通过实例对象.成员方法的形式来调用。所以这里要调用成员方法就必须先产生一个类的实例，再通过这个类的实例去调用成员方法。jni提供了AllocObject来调用java类的默认构造方法。返回一个jobject的jni包装的对象类型。通过GetMethodID函数获取类的成员方法。（如果不是默认构造方法，就可以使用普通的GetMethodID方法获取构造方法如：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmethodID constructor_method = (*env)-&gt;GetMethodID(env, cls, <span class="string">"&lt;init&gt;"</span>, <span class="string">"(I)"</span>);</span><br></pre></td></tr></table></figure>
+<p>类似这样，再使用jni的NewObject函数得到了这个类的对象。）这里使用的方法签名也同样是javap工具得来的。得到jmethodID后通过jni提供的CallObjectMethod传入对象与方法ID，调用这个方法并获取返回值。代码58-72行就是生成新对象，调用成员方法的过程。</p>
+<p>3）成员变量。同样是需要实例对象来进行获取，修改等操作。jni提供一个叫做GetFieldID的函数，传入类名，成员变量名称，还有其变量类型（javap生成的签名），返回一个jni的jFieldID的包装类型。获取其ID之后，通过SetObjectField函数将新的值设置给这个成员变量。函数依次传入，对象、成员变量ID，将要设置的值。设置完成，再次使用GetMethodID调用对应的get方法查看其值是否改变。代码中74-97就是获取成员变量并设置新值，再次查看的过程。</p>
+<p>以上过程都调用都完成之后，使用创建出的jvm指针销毁jvm，释放加载的虚拟机。</p>
+</li>
+<li><p>gcc下编译代码查看结果：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc -Wall -o c_call_java c_call_java.c -I$&#123;JAVA_HOME&#125;/include \</span><br><span class="line"><span class="meta">-I$</span><span class="bash">&#123;JAVA_HOME&#125;/include/linux -L<span class="variable">$&#123;JAVA_HOME&#125;</span>/jre/lib/i386/client/ -ljvm</span></span><br></pre></td></tr></table></figure>
+<p><strong>-I</strong>指定头文件目录，这里是jni的头文件目录（另一个办法是把里面的h文件都拷贝到/usr/local/inlcude中），-L指定要链接的库的目录，-l选项直接指定库的名称，这里要链接的是<em>$JAVA_HOME/jre/lib/i386/client/</em>下的<strong>libjvm.so</strong>动态库。</p>
+<p>编译无错生成c_call_java可执行文件。终端下运行输出：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[getVal] called</span><br><span class="line">[Call Member Method] 20</span><br><span class="line">[new set str]: new class member</span><br></pre></td></tr></table></figure>
+<p>c通过jni成功调用了java代码。以上就是在没有线程的情况下，c/c++调用java的jni的一般操作方法。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C/" rel="tag"># C++</a>
+          
+            <a href="/tags/Java/" rel="tag"># Java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/05/C和C-与Java的互相调用/" rel="next" title="C和C++与Java的互相调用">
+                <i class="fa fa-chevron-left"></i> C和C++与Java的互相调用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/17/Markdown语法简要说明/" rel="prev" title="Markdown语法简要说明">
+                Markdown语法简要说明 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMi8xNDI2Mw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">coding like a rookie</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

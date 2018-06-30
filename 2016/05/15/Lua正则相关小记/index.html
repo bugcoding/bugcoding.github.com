@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Lua正则表达式Lua的正则表达式不是标准的Posix的标准实现，有自己的一些标准，由于长时间不使用，最近用到一个相关的业务逻辑，在一个标签中提取价格，但是这个标签是不规则的，可能前后有很多其他字符(￥XXX priceNum XXX)，用固定长度截取显然不成，想到了用正则，最后google了一下，才搞定，但是发现很多都忘记了，这里记录一下。 相关库函数 string.find 字符串查找，匹配第">
+<meta name="keywords" content="Lua">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lua正则相关小记">
+<meta property="og:url" content="http://bugcode.net/2016/05/15/Lua正则相关小记/index.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="Lua正则表达式Lua的正则表达式不是标准的Posix的标准实现，有自己的一些标准，由于长时间不使用，最近用到一个相关的业务逻辑，在一个标签中提取价格，但是这个标签是不规则的，可能前后有很多其他字符(￥XXX priceNum XXX)，用固定长度截取显然不成，想到了用正则，最后google了一下，才搞定，但是发现很多都忘记了，这里记录一下。 相关库函数 string.find 字符串查找，匹配第">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-30T11:01:41.060Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lua正则相关小记">
+<meta name="twitter:description" content="Lua正则表达式Lua的正则表达式不是标准的Posix的标准实现，有自己的一些标准，由于长时间不使用，最近用到一个相关的业务逻辑，在一个标签中提取价格，但是这个标签是不规则的，可能前后有很多其他字符(￥XXX priceNum XXX)，用固定长度截取显然不成，想到了用正则，最后google了一下，才搞定，但是发现很多都忘记了，这里记录一下。 相关库函数 string.find 字符串查找，匹配第">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2016/05/15/Lua正则相关小记/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Lua正则相关小记 | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">今朝有码今朝敲，莫待无码空长膘。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+    <a href="/tips" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />tips</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2016/05/15/Lua正则相关小记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="coding like a rookie">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Lua正则相关小记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-05-15 23:04:01" itemprop="dateCreated datePublished" datetime="2016-05-15T23:04:01+08:00">2016-05-15</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-30 19:01:41" itemprop="dateModified" datetime="2018-06-30T19:01:41+08:00">2018-06-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Lua正则表达式"><a href="#Lua正则表达式" class="headerlink" title="Lua正则表达式"></a>Lua正则表达式</h3><p>Lua的正则表达式不是标准的Posix的标准实现，有自己的一些标准，由于长时间不使用，最近用到一个相关的业务逻辑，在一个标签中提取价格，但是这个标签是不规则的，可能前后有很多其他字符(￥XXX priceNum XXX)，用固定长度截取显然不成，想到了用正则，最后google了一下，才搞定，但是发现很多都忘记了，这里记录一下。</p>
+<h3 id="相关库函数"><a href="#相关库函数" class="headerlink" title="相关库函数"></a>相关库函数</h3><ul>
+<li><p>string.find 字符串查找，匹配第一个符合条件的位置与最终位置</p>
+<blockquote>
+<p>string.gfind是5.0中的函数，在5.1是被标记为deprecated的，在5.2被移除，替换为string.gmatch</p>
+</blockquote>
+</li>
+<li><p>string.match 匹配第一个符合的字符串</p>
+</li>
+<li><p>string.sub 截取字符串的一部分</p>
+</li>
+<li><p>string.gsub 全局字符串替换，替换目标字符串多次，返回替换后的字符串，同时返回的匹配替换的次数</p>
+</li>
+<li><p>string.gmatch 全局字符串查找，匹配多次符合条件的，并返回一个迭代器，可以在一个for循环里得到所有的匹配</p>
+</li>
+</ul>
+<h3 id="Lua正则元字符"><a href="#Lua正则元字符" class="headerlink" title="Lua正则元字符"></a>Lua正则元字符</h3><ul>
+<li><p>字符类</p>
+<blockquote>
+<p>% 转义符，转义其他的有特殊意义的元字符串，转义双引号(“)使用反斜杠(\)</p>
+<p>. 匹配任意字符</p>
+<p>%a 所有字母</p>
+<p>%b 边界匹配 如%bse，匹配以s开头e结尾中间的所有</p>
+<p>%c 控制字符，类似响铃，退格，具体参照<a href="https://zh.wikipedia.org/wiki/%E6%8E%A7%E5%88%B6%E5%AD%97%E7%AC%A6" target="_blank" rel="noopener">Wiki</a></p>
+<p>%d 所有数字</p>
+<p>%l 所有小写</p>
+<p>%u 所有大写</p>
+<p>%p 标点符号</p>
+<p>%s 空白字符，包括空格，四格制表，换行(\r，\n)</p>
+<p>%w 字母和数字</p>
+<p>%x 十六进制数字</p>
+<p>%z 表示0的字符</p>
+</blockquote>
+<p>大写表示其补集，如%P，表示所有不是标点的。</p>
+</li>
+<li><p>字符集表示</p>
+<p>使用一对中括号[]，中括号内是对应的集合，可以使用-(中划线)表示一个范围</p>
+<blockquote>
+<p>[0-9A-Za-Z]表示所有字母与数字</p>
+</blockquote>
+</li>
+<li><p>匹配次数指示</p>
+<p>指示对应的模式匹配几次</p>
+<blockquote>
+<p>+ 匹配其前面的pattern一次或者多次，按最多长匹配</p>
+<p>* 匹配其前面的pattern0次或者多次，按最长匹配</p>
+<p>- 匹配其前面的pattern0次或者多次，按最短匹配</p>
+<p>? 匹配其前面的pattern0次或者一次</p>
+</blockquote>
+</li>
+<li><p>匹配开头和结尾</p>
+<ol>
+<li>开头，使用^，如^x，匹配以x开头的模式</li>
+<li>结尾，使用$，如x$，匹配以x结尾的模式</li>
+</ol>
+</li>
+<li><p>捕获指定内容</p>
+<p>使用一对小括号()，捕获指定的内容并返回，用小括号括起对应的模式串</p>
+</li>
+</ul>
+<h3 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h3><ul>
+<li><p>获取标签内价格</p>
+<p>开头说的获取标签内的价格信息，就可以使用string.match匹配对应的字符串，使用小括号捕获想要的内容，使用转义符%转义价格中可能出现的小数点，小数点后可能有数字也可能是一个整数价格，使用*来匹配0个或者多个小数点后的数字，小数前是一定有价格的，不然就不是价格标签了，使用+来匹配至少一个数字，最终得到如下正则表达式：</p>
+<blockquote>
+<p>pattern = “(%d+%.%d*)”</p>
+</blockquote>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> moneyLabel = <span class="string">"￥ 666.02 - 元"</span></span><br><span class="line"><span class="comment">-- 获取666.02这个价格</span></span><br><span class="line"><span class="keyword">local</span> price = <span class="built_in">string</span>.<span class="built_in">match</span>(moneyLabel, <span class="string">"(%d+%.?%d*)"</span>)</span><br><span class="line"><span class="built_in">print</span>(price) <span class="comment">-- 输出666.02</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>string.gsub，模式串替换</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> str = <span class="string">"worse is better"</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> dest, count = <span class="built_in">string</span>.<span class="built_in">gsub</span>(str, <span class="string">"%a+"</span>, <span class="string">"lua"</span>)</span><br><span class="line"><span class="comment">-- 三个单词都被替换成lua，替换次数是3</span></span><br><span class="line"><span class="built_in">print</span>(dest .. <span class="string">" replace count = "</span> .. <span class="built_in">tostring</span>(count))</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> gsubStr = <span class="string">"   something with space   "</span></span><br><span class="line"><span class="comment">-- 第三个参数，捕获对应的前面第几个分组内的匹配串</span></span><br><span class="line"><span class="keyword">local</span> trimStr = <span class="built_in">string</span>.<span class="built_in">gsub</span>(gsubStr, <span class="string">"^%s*(.-)%s*$"</span>, <span class="string">"%1"</span>) </span><br><span class="line"><span class="built_in">print</span>(trimStr)</span><br><span class="line"></span><br><span class="line"><span class="keyword">local</span> matchString = <span class="string">"1 2 3 4"</span></span><br><span class="line"><span class="comment">--  第三个参数是把对应前的面捕获的1个替换为4个重复的</span></span><br><span class="line"><span class="keyword">local</span> repeatString = <span class="built_in">string</span>.<span class="built_in">gsub</span>(matchString, <span class="string">"(%d+)%s*"</span>, <span class="string">"%1 %1 %1 %1 "</span>)</span><br><span class="line"><span class="comment">-- 第个参数表示执行几次替换</span></span><br><span class="line"><span class="keyword">local</span> repeatStringCount = <span class="built_in">string</span>.<span class="built_in">gsub</span>(matchString, <span class="string">"(%d+)%s*"</span>, <span class="string">"%1+"</span>, <span class="number">2</span>) </span><br><span class="line"><span class="built_in">print</span>(repeatString)</span><br><span class="line"><span class="built_in">print</span>(repeatStringCount)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>string.match，匹配串，首次匹配的结果，不是位置</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> tmp = <span class="string">"first1 second2 thrid3"</span></span><br><span class="line"><span class="keyword">local</span> resFromBehind = <span class="built_in">string</span>.<span class="built_in">match</span>(tmp, <span class="string">"%d"</span>, <span class="number">-2</span>)</span><br><span class="line"><span class="keyword">local</span> res = <span class="built_in">string</span>.<span class="built_in">match</span>(tmp, <span class="string">"%D+"</span>)</span><br><span class="line"><span class="built_in">print</span>(resFromBehind) <span class="comment">-- 输出3，最后参数指定由右侧第二字符开始匹配</span></span><br><span class="line"><span class="built_in">print</span>(res) <span class="comment">-- 输出first，即非数字的其他字符一个或者多个，+是贪婪模式</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>string.find，串查找，首次查找的位置，返回起始结束位置</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> findStr = <span class="string">"phone number: 19922337755"</span></span><br><span class="line"><span class="comment">-- 第三个参数是查找的起始位置，默认由1开始</span></span><br><span class="line"><span class="keyword">local</span> startIndex, endIndex = <span class="built_in">string</span>.<span class="built_in">find</span>(findStr, <span class="string">"%d+"</span>, <span class="number">1</span>) </span><br><span class="line"><span class="built_in">print</span>(startIndex, endIndex) <span class="comment">-- 输出 15, 25</span></span><br><span class="line"><span class="keyword">local</span> result = <span class="built_in">string</span>.<span class="built_in">sub</span>(findStr, startIndex, endIndex)</span><br><span class="line"><span class="built_in">print</span>(result) <span class="comment">-- 输出 19922337755</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>string.gmatch，串匹配，返回一个迭代器，多次匹配</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> gmatchStr = <span class="string">"one1, two2, three3, four4, five5"</span></span><br><span class="line"><span class="comment">-- 包含字母和数字的单词</span></span><br><span class="line"><span class="keyword">for</span> word <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(gmatchStr, <span class="string">"%w+"</span>) <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">print</span>(word)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 只包含字母的单词</span></span><br><span class="line"><span class="keyword">for</span> onlyLetters <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(gmatchStr, <span class="string">"%a+"</span>) <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">print</span>(onlyLetters)</span><br><span class="line"><span class="keyword">end</span></span><br><span class="line"><span class="comment">-- 只要数字</span></span><br><span class="line"><span class="keyword">for</span> onlyNums <span class="keyword">in</span> <span class="built_in">string</span>.<span class="built_in">gmatch</span>(gmatchStr, <span class="string">"%d+"</span>) <span class="keyword">do</span></span><br><span class="line">    <span class="built_in">print</span>(onlyNums)</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><em>记录完毕</em></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Lua/" rel="tag"># Lua</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/12/Python三元运算小记/" rel="next" title="Python三元运算小记">
+                <i class="fa fa-chevron-left"></i> Python三元运算小记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/16/SwiftNote-10/" rel="prev" title="SwiftNote-10">
+                SwiftNote-10 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMi8xNDI2Mw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">coding like a rookie</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Lua正则表达式"><span class="nav-number">1.</span> <span class="nav-text">Lua正则表达式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关库函数"><span class="nav-number">2.</span> <span class="nav-text">相关库函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lua正则元字符"><span class="nav-number">3.</span> <span class="nav-text">Lua正则元字符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Example"><span class="nav-number">4.</span> <span class="nav-text">Example</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

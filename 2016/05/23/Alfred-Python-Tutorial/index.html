@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.3.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.3.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.3.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="Alfred不再多说，试用一次之后，直接32欧上了Mega授权，杀器其实是Alfred Workflow，配置action，filter，可以有无限可能的操作。这里把deanishe上的Python写Afred Workflow的入门翻译一下放在这里，但是国内pinboard用的不多，这里用V2ex提供的最新主题列表的API，通过Alfred获取V2ex上的最新主题列表，来“本土化”翻译一下dea">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alfred-Python-Tutorial">
+<meta property="og:url" content="http://bugcode.net/2016/05/23/Alfred-Python-Tutorial/index.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="Alfred不再多说，试用一次之后，直接32欧上了Mega授权，杀器其实是Alfred Workflow，配置action，filter，可以有无限可能的操作。这里把deanishe上的Python写Afred Workflow的入门翻译一下放在这里，但是国内pinboard用的不多，这里用V2ex提供的最新主题列表的API，通过Alfred获取V2ex上的最新主题列表，来“本土化”翻译一下dea">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://bugcode.net/chapimages/workflow_blank.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/workflow_base_info.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/ScriptFilter.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/scriptfileter_info.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/show_keyword.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/workflow_open_in_finder.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/show_in_finder.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/add_workflow_dev.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/get_subject.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/error_interface.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/add_open_url.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/open_url_detial.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/show_nub.png">
+<meta property="og:image" content="http://bugcode.net/chapimages/join_open_url.png">
+<meta property="og:updated_time" content="2018-06-30T11:01:40.828Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Alfred-Python-Tutorial">
+<meta name="twitter:description" content="Alfred不再多说，试用一次之后，直接32欧上了Mega授权，杀器其实是Alfred Workflow，配置action，filter，可以有无限可能的操作。这里把deanishe上的Python写Afred Workflow的入门翻译一下放在这里，但是国内pinboard用的不多，这里用V2ex提供的最新主题列表的API，通过Alfred获取V2ex上的最新主题列表，来“本土化”翻译一下dea">
+<meta name="twitter:image" content="http://bugcode.net/chapimages/workflow_blank.png">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2016/05/23/Alfred-Python-Tutorial/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Alfred-Python-Tutorial | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">今朝有码今朝敲，莫待无码空长膘。</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />首页</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />关于</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />归档</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />标签</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tips">
+    <a href="/tips" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />tips</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2016/05/23/Alfred-Python-Tutorial/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="coding like a rookie">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Alfred-Python-Tutorial
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-05-23 00:03:06" itemprop="dateCreated datePublished" datetime="2016-05-23T00:03:06+08:00">2016-05-23</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-06-30 19:01:40" itemprop="dateModified" datetime="2018-06-30T19:01:40+08:00">2018-06-30</time>
+              
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Alfred不再多说，试用一次之后，直接32欧上了Mega授权，杀器其实是Alfred Workflow，配置action，filter，可以有无限可能的操作。这里把<a href="http://www.deanishe.net/alfred-workflow/index.html" target="_blank" rel="noopener">deanishe</a>上的Python写Afred Workflow的入门翻译一下放在这里，但是国内pinboard用的不多，这里用<a href="http://v2ex.com/" target="_blank" rel="noopener">V2ex</a>提供的最新主题列表的<a href="http://v2ex.com/p/7v9TEc53" target="_blank" rel="noopener">API</a>，通过Alfred获取V2ex上的最新主题列表，来“本土化”翻译一下deanishe网站上的Python写workflow的入门。Alfred Workflow支持多种脚本语言编写，完全可以使用自己擅长的脚本来写。</p>
+<blockquote>
+<p>Alfred Workflow支持多种脚本语言编写：bash,zsh,php,python,ruby,applescript,perl</p>
+</blockquote>
+<p>下面按步用Python来做一个简单的的workflow。</p>
+<h3 id="创建一个新的Workflow"><a href="#创建一个新的Workflow" class="headerlink" title="创建一个新的Workflow"></a>创建一个新的Workflow</h3><p>首先打开Alfred的首首选项(Preference)， 切换到Workflow页签下。</p>
+<p><img src="/chapimages/workflow_blank.png" alt=""></p>
+<p>如上图点击加号创建一个空白的workflow(Blank Workflow)。</p>
+<h3 id="为新创建的空白Workflow添加必要的描述"><a href="#为新创建的空白Workflow添加必要的描述" class="headerlink" title="为新创建的空白Workflow添加必要的描述"></a>为新创建的空白Workflow添加必要的描述</h3><p>点击创建当弹出Workflow的信息面板时，这里就要给你要创建的Workflow添加<strong>名称</strong>，<strong>Bundle Id</strong>，还有可选的对workflow的简要描述。</p>
+<blockquote>
+<p>Bundle Id是必须要填写的，因为在Aldred 和 Alfred Workflow内部需要依赖这个Bundle Id来唯一区分你这个Alfred Workflow，没有这个Bundle Id，Alfred Workflow就不能正常运行了。</p>
+</blockquote>
+<p>除了这些必要的信息，还可以拖拽一图片到左侧的Icon区域，这会让你的Workflow看起来更漂亮些(这个icon会在Alfred Workflow的每条结果中显示出来)。</p>
+<p><img src="/chapimages/workflow_base_info.png" alt=""></p>
+<h3 id="加入Script-Filter-脚本过滤器-组件"><a href="#加入Script-Filter-脚本过滤器-组件" class="headerlink" title="加入Script Filter(脚本过滤器)组件"></a>加入Script Filter(脚本过滤器)组件</h3><p>下一步就是加入一个Script Filter(翻译成”脚本过滤器”)，Script Filter接收Alfred的输入内容(即用户输入的查询内容)并将结果列表返回给Alfred。这个Script Filter(内部代码实现)需要尽可能的快速执行，因为用户每在Alfred的搜索框内输入一个字符都会调用执行一次这个Script Filter:</p>
+<p><img src="/chapimages/ScriptFilter.png" alt=""></p>
+<p>接下来点击这个Script Filter组件，为其加入更详细的信息。(<strong>Escaping</strong>选项暂时不必理会，这个Workflow不会接收查询)</p>
+<p><img src="/chapimages/scriptfileter_info.png" alt=""></p>
+<p>想一个关键词，这个<strong>Keyword(关键词)</strong>的作用就是在你打开Alfred搜索框输入这个关键词的时候就会激活这个Workflow，现这个Workflow不接收任何参数，这里填<strong>No Argument</strong>，这个<strong>PlaceHolder Title(占位标题)</strong>和<strong>Subtext</strong>的作用就是在你输入<strong>Keyword(关键词)</strong>的过程中会显示出来(也就是用作提示的)。</p>
+<p><img src="/chapimages/show_keyword.png" alt=""></p>
+<p>“请稍等”这个提示是在你的Workflow工作的时候显示出来的(表明Workflow正在做相关的查询或者操作，这个例子里就是正在从网上的V2ex网站请求数据)。</p>
+<p>非常重要的一点，设置<strong>Language(脚本语言)</strong>时，选择<strong>/bin/bash</strong>，并且在<strong>Script文本框</strong>里填写：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python v2ex_new.py</span><br></pre></td></tr></table></figure>
+<p>马上我们就会创建v2ex_new.py这个脚本文件，<strong>Escaping</strong>选项暂时不用管，这个例子里不会接收参数。</p>
+<blockquote>
+<p>你也可以选择Language为/use/bin/python，并把实现的python代码粘贴到Script文本框里，但是这并不是最好的方法。</p>
+<p>如果这样做(指粘贴Python代码到Script对应的文本框里)，你就不能在终端里运行代码了，而且你也不能用一个顺手的编辑器，这样调试代码会非常困难。Python会告诉你哪一行代码出错，但是在Alfred的Script文本框里并没有行数标识，这样就凭空多出很多额外工作。</p>
+</blockquote>
+<p>到这Alfred已经创建出来了Workflow，我们可以打开它并加入我们的脚本代码了，在左侧Workflow列表中右击你刚创建的Workflow，选择<strong>Open in Finder</strong></p>
+<p><img src="/chapimages/workflow_open_in_finder.png" alt=""></p>
+<p>打开目录会看到一个或者二个文件(取决于你之前是否拖拽了Icon图标)</p>
+<p><img src="/chapimages/show_in_finder.png" alt=""></p>
+<p>此时需要从<a href="https://github.com/deanishe/alfred-workflow/releases/latest" target="_blank" rel="noopener">Github</a>下载一个叫Afred-Workflow的包，拷贝解压到当前的Workflow目录</p>
+<p><img src="/chapimages/add_workflow_dev.png" alt=""></p>
+<p>现在可以开始写代码了^_^</p>
+<h3 id="编写Python脚本"><a href="#编写Python脚本" class="headerlink" title="编写Python脚本"></a>编写Python脚本</h3><p>使用文本编辑器在当前的Workflow文件夹下创建v2ex_new.py并保存，向v2ex_new.py加下以下代码</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> workflow <span class="keyword">import</span> Workflow, ICON_WEB, web</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(wf)</span>:</span></span><br><span class="line">    url = <span class="string">'https://www.v2ex.com/api/topics/latest.json'</span></span><br><span class="line">    r = web.get(url, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># throw an error if request failed</span></span><br><span class="line">    <span class="comment"># Workflow will catch this and show it to the user</span></span><br><span class="line">    r.raise_for_status()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Parse the JSON returned by pinboard and extract the posts</span></span><br><span class="line">    result = r.json()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> post <span class="keyword">in</span> result:</span><br><span class="line">        wf.add_item(title=post[<span class="string">'title'</span>],</span><br><span class="line">                subtitle=post[<span class="string">'content'</span>],</span><br><span class="line">                icon=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Send the results to Alfred as XML</span></span><br><span class="line">    wf.send_feedback()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">u"__main__"</span>:</span><br><span class="line">    wf = Workflow()</span><br><span class="line">    sys.exit(wf.run(main))</span><br></pre></td></tr></table></figure>
+<p>好，一切就绪，我们的Alfred Workflow应该可以工作了，打开Alfred搜索框，输入v2exnew并回车。你会看到如下界面：</p>
+<p><img src="/chapimages/get_subject.png" alt=""></p>
+<p>可能会像下面这样发生错误</p>
+<p><img src="/chapimages/error_interface.png" alt=""></p>
+<p>如果Alfred没有展示任何结果，那可能是Python脚本没有完全执行，在终端中打开Workflow的文件夹，使用如下命令运行Python脚本，应该会发现错误信息。</p>
+<h3 id="继续加入Workflow动作-action"><a href="#继续加入Workflow动作-action" class="headerlink" title="继续加入Workflow动作(action)"></a>继续加入Workflow动作(action)</h3><p>现在我们可以看到v2ex网站上的最新主题列表了，但是我们只能看，不能对每条结果做任何事情，现在我们就要让这些结果条目带上”动作”(比如，在某条结果上按<strong>回车</strong>就会发生一些事情，在这个例子中，我们就在浏览器中打开应最新主题的页面)。在v2ex_new.py文件加入下面高亮的二行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># encoding: utf-8</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> workflow <span class="keyword">import</span> Workflow, ICON_WEB, web</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">(wf)</span>:</span></span><br><span class="line">    url = <span class="string">'https://www.v2ex.com/api/topics/latest.json'</span></span><br><span class="line">    r = web.get(url, <span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># throw an error if request failed</span></span><br><span class="line">    <span class="comment"># Workflow will catch this and show it to the user</span></span><br><span class="line">    r.raise_for_status()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Parse the JSON returned by pinboard and extract the posts</span></span><br><span class="line">    result = r.json()</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">for</span> post <span class="keyword">in</span> result:</span><br><span class="line">        wf.add_item(title=post[<span class="string">'title'</span>],</span><br><span class="line">                subtitle=post[<span class="string">'content'</span>],</span><br><span class="line">                arg=post[<span class="string">'url'</span>], <span class="comment"># 新加入这二行</span></span><br><span class="line">                valid=<span class="keyword">True</span>,</span><br><span class="line">                icon=<span class="keyword">None</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Send the results to Alfred as XML</span></span><br><span class="line">    wf.send_feedback()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">u"__main__"</span>:</span><br><span class="line">    wf = Workflow()</span><br><span class="line">    sys.exit(wf.run(main))</span><br></pre></td></tr></table></figure>
+<p><strong>“valid=True”</strong>的意思就是告知Alred这条结果上的动作和对应的value值要传递给下一个action(动作)，在这个例子里，就是URL。</p>
+<p>此时再回到<strong>Alfred Preference(首选项)</strong> 面板切到Workflow界面，像添加ScriptFilter一样在<strong>Actions</strong>条目中找到<strong>Open URL</strong>，添加这个action:</p>
+<p><img src="/chapimages/add_open_url.png" alt=""></p>
+<p>详情界面在URL项中填入<strong>{query}</strong>(即上一步动作中传入的value值，就是对应主题的URL)，下面还可以选项打开链接的浏览器。</p>
+<p><img src="/chapimages/open_url_detial.png" alt=""></p>
+<p>这时把鼠标放到ScriptFilter上时就会在这个组件的右侧出现一个小的”突起”。</p>
+<p><img src="/chapimages/show_nub.png" alt=""></p>
+<p>点住这个”突起”拖拽连接至<strong>Open URL</strong>动作上。</p>
+<p><img src="/chapimages/join_open_url.png" alt=""></p>
+<p>现在再次在Alfred中运行你的Workflow，选中任一一个结果并点击<strong>回车</strong>，对应的新主题就会在指定的浏览器中打开了。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/05/22/SwiftNote-11/" rel="next" title="SwiftNote-11">
+                <i class="fa fa-chevron-left"></i> SwiftNote-11
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/06/01/六一碎念/" rel="prev" title="六一碎念">
+                六一碎念 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8zNzczMi8xNDI2Mw=="></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">coding like a rookie</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">54</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">19</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建一个新的Workflow"><span class="nav-number">1.</span> <span class="nav-text">创建一个新的Workflow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为新创建的空白Workflow添加必要的描述"><span class="nav-number">2.</span> <span class="nav-text">为新创建的空白Workflow添加必要的描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入Script-Filter-脚本过滤器-组件"><span class="nav-number">3.</span> <span class="nav-text">加入Script Filter(脚本过滤器)组件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编写Python脚本"><span class="nav-number">4.</span> <span class="nav-text">编写Python脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续加入Workflow动作-action"><span class="nav-number">5.</span> <span class="nav-text">继续加入Workflow动作(action)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动 v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://theme-next.org">NexT.Pisces</a> v6.3.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

@@ -102,18 +102,18 @@
 
 
 
-  <meta name="description" content="和同事讨论Java 8的lambda表达式，然后就说起了闭包，然后发现在不在少数的人对闭包的理解就是闭包就是个匿名函数，甚至就认为这二个是互通的。  匿名函数就是闭包，闭包就是匿名函数。  结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。 闭包概念详细的概念可以看下wiki )，这里引用一下wiki上对闭包的解释：  在计算">
+  <meta name="description" content="和同事讨论Java 8的lambda表达式，然后就说起了闭包，然后发现在不在少数的人对闭包的理解就是闭包就是个匿名函数，甚至就认为这二个是互通的。  匿名函数就是闭包，闭包就是匿名函数。  结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。 闭包概念详细的概念可以看下wiki，这里引用一下wiki上对闭包的解释：  在计算机科">
 <meta name="keywords" content="Theory">
 <meta property="og:type" content="article">
 <meta property="og:title" content="闭包 == 匿名函数?">
 <meta property="og:url" content="http://bugcode.net/2017/02/05/闭包-Closure-总结/index.html">
 <meta property="og:site_name" content="Bugcode&#39;s Note">
-<meta property="og:description" content="和同事讨论Java 8的lambda表达式，然后就说起了闭包，然后发现在不在少数的人对闭包的理解就是闭包就是个匿名函数，甚至就认为这二个是互通的。  匿名函数就是闭包，闭包就是匿名函数。  结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。 闭包概念详细的概念可以看下wiki )，这里引用一下wiki上对闭包的解释：  在计算">
+<meta property="og:description" content="和同事讨论Java 8的lambda表达式，然后就说起了闭包，然后发现在不在少数的人对闭包的理解就是闭包就是个匿名函数，甚至就认为这二个是互通的。  匿名函数就是闭包，闭包就是匿名函数。  结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。 闭包概念详细的概念可以看下wiki，这里引用一下wiki上对闭包的解释：  在计算机科">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-05T15:32:02.420Z">
+<meta property="og:updated_time" content="2018-07-05T15:39:52.696Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闭包 == 匿名函数?">
-<meta name="twitter:description" content="和同事讨论Java 8的lambda表达式，然后就说起了闭包，然后发现在不在少数的人对闭包的理解就是闭包就是个匿名函数，甚至就认为这二个是互通的。  匿名函数就是闭包，闭包就是匿名函数。  结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。 闭包概念详细的概念可以看下wiki )，这里引用一下wiki上对闭包的解释：  在计算">
+<meta name="twitter:description" content="和同事讨论Java 8的lambda表达式，然后就说起了闭包，然后发现在不在少数的人对闭包的理解就是闭包就是个匿名函数，甚至就认为这二个是互通的。  匿名函数就是闭包，闭包就是匿名函数。  结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。 闭包概念详细的概念可以看下wiki，这里引用一下wiki上对闭包的解释：  在计算机科">
 
 
 
@@ -423,7 +423,7 @@
 <p><del>匿名函数就是闭包，闭包就是匿名函数</del>。</p>
 </blockquote>
 <p>结果自然就是一通争论，争论过程中，突然发现有些概念给对方解释的时候也不是能说得特别清楚，这里再对闭包这个概念整理深化一下。</p>
-<h5 id="闭包概念"><a href="#闭包概念" class="headerlink" title="闭包概念"></a>闭包概念</h5><p>详细的概念可以看下<a href="https://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_(%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener">wiki</a> )，这里引用一下wiki上对<code>闭包</code>的解释：</p>
+<h5 id="闭包概念"><a href="#闭包概念" class="headerlink" title="闭包概念"></a>闭包概念</h5><p>详细的概念可以看下<a href="https://zh.wikipedia.org/wiki/%E9%97%AD%E5%8C%85_%28%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6%29" target="_blank" rel="noopener">wiki</a>，这里引用一下wiki上对<code>闭包</code>的解释：</p>
 <blockquote>
 <p>在<a href="https://zh.wikipedia.org/wiki/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%A7%91%E5%AD%A6" target="_blank" rel="noopener">计算机科学</a>中，<strong>闭包</strong>（英语：Closure），又称<strong>词法闭包</strong>（Lexical Closure）或<strong>函数闭包</strong>（function closures），是引用了自由变量的函数。这个被引用的自由变量将和这个函数一同存在，即使已经离开了创造它的环境也不例外。所以，有另一种说法认为闭包是由函数和与其相关的引用环境组合而成的实体。闭包在运行时可以有多个实例，不同的引用环境和相同的函数组合可以产生不同的实例。</p>
 </blockquote>

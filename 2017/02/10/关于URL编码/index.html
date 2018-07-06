@@ -102,23 +102,25 @@
 
 
 
-  <meta name="description" content="keep coding, keep moving...">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Bugcode&#39;s Note">
-<meta property="og:url" content="http://bugcode.net/archives/2014/06/index.html">
+  <meta name="description" content="在写上一篇博客之前，我一直对URL编码没什么概念，看到网页链接上一串百分号加数字的字符串时会短暂的想想，因为工作中也不涉及到具体的URL编码的部分，一直也没深入过，而促使我写下来记录就是上一篇博客中markdown解析的时候出了一点小问题(markdown链接是放在小括号里面的，然后放在小括号的链接本身也包含小括号，这时markdown解析出了问题)，然后查问题的时候就查到了URL编码的相关知识，">
+<meta name="keywords" content="Theory">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于URL编码">
+<meta property="og:url" content="http://bugcode.net/2017/02/10/关于URL编码/index.html">
 <meta property="og:site_name" content="Bugcode&#39;s Note">
-<meta property="og:description" content="keep coding, keep moving...">
+<meta property="og:description" content="在写上一篇博客之前，我一直对URL编码没什么概念，看到网页链接上一串百分号加数字的字符串时会短暂的想想，因为工作中也不涉及到具体的URL编码的部分，一直也没深入过，而促使我写下来记录就是上一篇博客中markdown解析的时候出了一点小问题(markdown链接是放在小括号里面的，然后放在小括号的链接本身也包含小括号，这时markdown解析出了问题)，然后查问题的时候就查到了URL编码的相关知识，">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-07-06T06:42:15.432Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Bugcode&#39;s Note">
-<meta name="twitter:description" content="keep coding, keep moving...">
+<meta name="twitter:title" content="关于URL编码">
+<meta name="twitter:description" content="在写上一篇博客之前，我一直对URL编码没什么概念，看到网页链接上一串百分号加数字的字符串时会短暂的想想，因为工作中也不涉及到具体的URL编码的部分，一直也没深入过，而促使我写下来记录就是上一篇博客中markdown解析的时候出了一点小问题(markdown链接是放在小括号里面的，然后放在小括号的链接本身也包含小括号，这时markdown解析出了问题)，然后查问题的时候就查到了URL编码的相关知识，">
 
 
 
 
 
 
-  <link rel="canonical" href="http://bugcode.net/archives/2014/06/"/>
+  <link rel="canonical" href="http://bugcode.net/2017/02/10/关于URL编码/"/>
 
 
 
@@ -128,7 +130,7 @@
   };
 </script>
 
-  <title>归档 | Bugcode's Note</title>
+  <title>关于URL编码 | Bugcode's Note</title>
   
 
 
@@ -175,7 +177,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -228,7 +230,7 @@
         
         
           
-          <li class="menu-item menu-item-archives menu-item-active">
+          <li class="menu-item menu-item-archives">
     <a href="/archives/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Timeline</a>
   </li>
@@ -300,102 +302,225 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-      <span class="archive-page-counter">
-        
-        
-         
-          
-        不错! 目前共计 57 篇日志。 继续努力。
-      </span>
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2014">2014</h1>
-          </div>
-        
-        
-
-        
+  
+    <div class="reading-progress-bar"></div>
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2017/02/10/关于URL编码/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="keep coding, keep moving...">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2014/06/16/C99标准笔记/" itemprop="url">
-              
-                <span itemprop="name">C99标准笔记</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">关于URL编码
+              
+            
+          </h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2014-06-16T22:35:57+08:00"
-              content="2014-06-16" >
-          06-16
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
 
-    </header>
-  </article>
+            
+            
+            
 
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">\</span>
+              
 
+              
+                
+              
+
+              <time title="创建时间：2017-02-10 11:48:17" itemprop="dateCreated datePublished" datetime="2017-02-10T11:48:17+08:00">2017-02-10</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/10/关于URL编码/#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">评论数：</span> <span class="post-comments-count valine-comment-count" data-xid="/2017/02/10/关于URL编码/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+            >
+            <i class="fa fa-eye"></i>
+             阅读次数： 
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <p>在写上一篇博客之前，我一直对URL编码没什么概念，看到网页链接上一串百分号加数字的字符串时会短暂的想想，因为工作中也不涉及到具体的URL编码的部分，一直也没深入过，而促使我写下来记录就是上一篇博客中markdown解析的时候出了一点小问题(markdown链接是放在小括号里面的，然后放在小括号的链接本身也包含小括号，这时markdown解析出了问题)，然后查问题的时候就查到了URL编码的相关知识，这几天又查阅了资料，简要写在这里，深化一下记忆。</p>
+<h5 id="什么是URL编码"><a href="#什么是URL编码" class="headerlink" title="什么是URL编码"></a>什么是URL编码</h5><p>什么是URL？URL是Uniform Resource Locator(统一资源定位符)的缩写，就是平常说的网页地址，像<code>www.google.com</code>就是个URL。而URL编码就是把URL里面的字符按照一定的规则标准进行编码，产生一个国际范围内通用的字符串(ASCII码串)，这里是<a href="https://zh.wikipedia.org/wiki/%E7%99%BE%E5%88%86%E5%8F%B7%E7%BC%96%E7%A0%81" target="_blank" rel="noopener">Wiki上URL编码的解释</a>，可以看到Wiki上的关键词是percent-encoding，因为URL编码针对每个字符的编码都使用<strong>%</strong>做前缀转义字符。</p>
+<h5 id="为什么需要URL编码"><a href="#为什么需要URL编码" class="headerlink" title="为什么需要URL编码"></a>为什么需要URL编码</h5><p>URL就是统一为网络上资源命名，万维网遍及世界，所以URL需要具有通用性(世界范围内通用，跨语言，跨地区时区)，具有通用性的同时还要有完整性，不能因为URL中带了一些特殊字符就导致URL在传输过程中丢失了信息(比如URL中带有某个特定国家的文字)，否则就失去了URL的意义，定位不到资源，因此<a href="https://www.ietf.org/rfc/rfc1738.txt" target="_blank" rel="noopener">RFC1738</a>网络标准对URL做了硬性的规定(可以在上面的链接里看到具体RFC1738对URL的规定)，除了一些ascii字符和特殊的保留字符可以直接用于URL，其他的字符都需要经过编码才可以用于表示URL，这样经过标准规则对URL进行编码，所有的特殊字符都可以用标准中规则的字符进行编码，世界范围内使用相同的规则，编码解码达成一致，通用性和完整性都得到了保证。</p>
+<h5 id="URL编码的规则标准"><a href="#URL编码的规则标准" class="headerlink" title="URL编码的规则标准"></a>URL编码的规则标准</h5><p>当前的URL编码标准是对所有URL标准内的保留字符不进行百分号的编码，其他的一律先转换成UTF-8的字节(每个单独的字节转换为十六进制位再在前面都加百分号)表示，再在其前面加上百分号(<strong>%</strong>)。下面用简单的例子来演示一下URL编码标准的过程。</p>
+<h5 id="简单例子"><a href="#简单例子" class="headerlink" title="简单例子"></a>简单例子</h5><p>因何而起，便以何结束，既然是上次写的博客，就以上次博客地址为例(只取一个汉字做为例子，不按个分析演示了)，地址是<code>https://bugcode.net/2017/02/05/闭包等于匿名函数吗</code>，这里只取<code>闭</code>这个字，来演示URL编码的过程：</p>
+<ol>
+<li><p>汉字不是RFC1738标准中规则的保留字，所以要取<code>闭</code>字的UTF-8编码，其对应的十六进制Unicode码是<code>95ED</code>。</p>
+</li>
+<li><p>再将对应的Unicode码转换为对应的UTF-8字节，转换需要UTF-8转换表，通过转换表，获取当前<code>95ED</code>对应的UTF-8字节序列，下面是一张UTF-8转换表:</p>
+<p>|    unicode     | UTF-8                                  |<br>| :————: |: ————————————: |<br>|  0000 - 007F   | 0#######                               |<br>|  0080 - 07FF   | 11##### 10######                       |<br>|  0800 - FFFF   | 1110#### 10###### 10######             |<br>| 10000 - 1FFFFF | 11110####  10######  10###### 10###### |</p>
+<p>左侧是Unicode码对应范围右侧是UTF-8对应字节序列表示，#代表对应Unicode码对应的二进制位，依次填入，后面不够的补0，具体可以查阅UTF-8编码规则相关资料，<code>95ED</code>对应范围在0800 - FFFF范围内，即<code>闭</code>字需要三个字节表示。HEX(<code>95ED</code>) = BIN(<code>10010101 11101101</code>)，对应转换表，可得到对应的UTF-8字节序列分别是(把<code>95ED</code>二进制位分别按位填入<code>1110#### 10###### 10######</code>的#位置中)</p>
+<blockquote>
+<p>第一个字节需要填入4位，即: <code>1110 1001</code></p>
+<p>第二个字节填入6位，即: <code>10 010111</code></p>
+<p>第三个字节填入6位，即: <code>10 101101</code> </p>
+</blockquote>
+<p>三个字节对应的二进制位，再转换为十六进制分别是:</p>
+<blockquote>
+<p>BIN(<code>1110 1001</code>) = HEX(<code>E9</code>)</p>
+<p>BIN(<code>10 010111</code>) = HEX(<code>97</code>)</p>
+<p>BIN(<code>10101101</code>) = HEX(<code>AD</code>)</p>
+</blockquote>
+<p>根据规则，标准之内的保留字不需要填加<strong>%</strong>前缀转义进行编码，最后上面的链接<code>https://bugcode.net/2017/02/05/闭</code>(只取一个汉字做例子演示，其余同理)经过URL编码之后就是<code>https://bugcode.net/2017/02/05/%E9%97%AD</code></p>
+</li>
+<li><p>最后用JS的encodeURI函数来验证一下结果:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    </span><br><span class="line">&lt;script type=<span class="string">"text/javascript"</span>&gt;</span><br><span class="line"><span class="built_in">document</span>.write(<span class="built_in">encodeURI</span>(<span class="string">"https://bugcode.net/2017/02/05/闭"</span>)+ <span class="string">"&lt;br /&gt;"</span>)</span><br><span class="line"></span><br><span class="line">&lt;<span class="regexp">/script&gt;</span></span><br><span class="line"><span class="regexp">&lt;/</span>body&gt;</span><br><span class="line">&lt;<span class="regexp">/html&gt;</span></span><br></pre></td></tr></table></figure>
+<p>代码输出: <code>https://bugcode.net/2017/02/05/%E9%97%AD</code></p>
+</li>
+</ol>
+<p>##### </p>
+
+      
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Theory/" rel="tag"><i class="fa fa-tag"></i> Theory</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/05/闭包等于匿名函数吗/" rel="next" title="闭包 == 匿名函数?">
+                <i class="fa fa-chevron-left"></i> 闭包 == 匿名函数?
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
 
         </div>
         
@@ -416,8 +541,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -528,6 +662,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么是URL编码"><span class="nav-number">1.</span> <span class="nav-text">什么是URL编码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#为什么需要URL编码"><span class="nav-number">2.</span> <span class="nav-text">为什么需要URL编码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#URL编码的规则标准"><span class="nav-number">3.</span> <span class="nav-text">URL编码的规则标准</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#简单例子"><span class="nav-number">4.</span> <span class="nav-text">简单例子</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -673,6 +823,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
 
   
 

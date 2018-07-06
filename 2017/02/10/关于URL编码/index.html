@@ -110,7 +110,7 @@
 <meta property="og:site_name" content="Bugcode&#39;s Note">
 <meta property="og:description" content="在写上一篇博客之前，我一直对URL编码没什么概念，看到网页链接上一串百分号加数字的字符串时会短暂的想想，因为工作中也不涉及到具体的URL编码的部分，一直也没深入过，而促使我写下来记录就是上一篇博客中markdown解析的时候出了一点小问题(markdown链接是放在小括号里面的，然后放在小括号的链接本身也包含小括号，这时markdown解析出了问题)，然后查问题的时候就查到了URL编码的相关知识，">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-06T06:42:15.432Z">
+<meta property="og:updated_time" content="2018-07-06T06:55:03.564Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于URL编码">
 <meta name="twitter:description" content="在写上一篇博客之前，我一直对URL编码没什么概念，看到网页链接上一串百分号加数字的字符串时会短暂的想想，因为工作中也不涉及到具体的URL编码的部分，一直也没深入过，而促使我写下来记录就是上一篇博客中markdown解析的时候出了一点小问题(markdown链接是放在小括号里面的，然后放在小括号的链接本身也包含小括号，这时markdown解析出了问题)，然后查问题的时候就查到了URL编码的相关知识，">
@@ -427,8 +427,36 @@
 <li><p>汉字不是RFC1738标准中规则的保留字，所以要取<code>闭</code>字的UTF-8编码，其对应的十六进制Unicode码是<code>95ED</code>。</p>
 </li>
 <li><p>再将对应的Unicode码转换为对应的UTF-8字节，转换需要UTF-8转换表，通过转换表，获取当前<code>95ED</code>对应的UTF-8字节序列，下面是一张UTF-8转换表:</p>
-<p>|    unicode     | UTF-8                                  |<br>| :————: |: ————————————: |<br>|  0000 - 007F   | 0#######                               |<br>|  0080 - 07FF   | 11##### 10######                       |<br>|  0800 - FFFF   | 1110#### 10###### 10######             |<br>| 10000 - 1FFFFF | 11110####  10######  10###### 10###### |</p>
-<p>左侧是Unicode码对应范围右侧是UTF-8对应字节序列表示，#代表对应Unicode码对应的二进制位，依次填入，后面不够的补0，具体可以查阅UTF-8编码规则相关资料，<code>95ED</code>对应范围在0800 - FFFF范围内，即<code>闭</code>字需要三个字节表示。HEX(<code>95ED</code>) = BIN(<code>10010101 11101101</code>)，对应转换表，可得到对应的UTF-8字节序列分别是(把<code>95ED</code>二进制位分别按位填入<code>1110#### 10###### 10######</code>的#位置中)</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">unicode</th>
+<th>UTF-8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0000 - 007F</td>
+<td>0#######</td>
+</tr>
+<tr>
+<td style="text-align:center">0080 - 07FF</td>
+<td>11##### 10######</td>
+</tr>
+<tr>
+<td style="text-align:center">0800 - FFFF</td>
+<td>1110#### 10###### 10######</td>
+</tr>
+<tr>
+<td style="text-align:center">10000 - 1FFFFF</td>
+<td>11110####  10######  10###### 10######</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li><p>上面表格中左侧是Unicode码对应范围，右侧是UTF-8对应字节序列表示，#代表对应Unicode码对应的二进制位，依次填入，后面不够的补0，具体可以查阅UTF-8编码规则相关资料，<code>95ED</code>对应范围在0800 - FFFF范围内，即<code>闭</code>字需要三个字节表示。HEX(<code>95ED</code>) = BIN(<code>10010101 11101101</code>)，对应转换表，可得到对应的UTF-8字节序列分别是(把<code>95ED</code>二进制位分别按位填入<code>1110#### 10###### 10######</code>的#位置中)</p>
 <blockquote>
 <p>第一个字节需要填入4位，即: <code>1110 1001</code></p>
 <p>第二个字节填入6位，即: <code>10 010111</code></p>

@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.3.0" rel="stylesheet" type="text/css" />
+
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico?v=6.3.0">
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.3.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":true,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="for语句Swift对for语句进行了增强，不但有C语言里那种普通形式的三段式的for循环，还增加了for in这种区间式for循环  常规for循环，同其他语言三段式的for循环，形式相同，只不过Swift省略了中间的括号 1234for var i = 0; i &amp;lt; 10; i += 2&amp;#123;    print(&quot;output same 5 times&quot;)&amp;#125;  for .">
+<meta name="keywords" content="Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SwiftNote-4">
+<meta property="og:url" content="http://bugcode.net/2016/04/27/SwiftNote-4.html">
+<meta property="og:site_name" content="Bugcode&#39;s Note">
+<meta property="og:description" content="for语句Swift对for语句进行了增强，不但有C语言里那种普通形式的三段式的for循环，还增加了for in这种区间式for循环  常规for循环，同其他语言三段式的for循环，形式相同，只不过Swift省略了中间的括号 1234for var i = 0; i &amp;lt; 10; i += 2&amp;#123;    print(&quot;output same 5 times&quot;)&amp;#125;  for .">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-06-30T11:01:40.942Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SwiftNote-4">
+<meta name="twitter:description" content="for语句Swift对for语句进行了增强，不但有C语言里那种普通形式的三段式的for循环，还增加了for in这种区间式for循环  常规for循环，同其他语言三段式的for循环，形式相同，只不过Swift省略了中间的括号 1234for var i = 0; i &amp;lt; 10; i += 2&amp;#123;    print(&quot;output same 5 times&quot;)&amp;#125;  for .">
+
+
+
+
+
+
+  <link rel="canonical" href="http://bugcode.net/2016/04/27/SwiftNote-4.html"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>SwiftNote-4 | Bugcode's Note</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Bugcode's Note</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-user"></i> <br />About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />Timeline</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">
+      <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />Tags</a>
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />Search</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+    <div class="reading-progress-bar"></div>
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2016/04/27/SwiftNote-4.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="bugcode">
+      <meta itemprop="description" content="keep coding, keep moving...">
+      <meta itemprop="image" content="/chapimages/github.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bugcode's Note">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SwiftNote-4
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2016-04-27 22:43:13" itemprop="dateCreated datePublished" datetime="2016-04-27T22:43:13+08:00">2016-04-27</time>
+            
+
+            
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2016/04/27/SwiftNote-4.html#comments" itemprop="discussionUrl">
+                  <span class="post-meta-item-text">
+                    
+                        </span> <span class="post-comments-count valine-comment-count" data-xid="/2016/04/27/SwiftNote-4.html" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="post-meta-item-icon"
+             title="阅读次数" >
+            <i class="fa fa-eye"></i>
+            
+            <span class="busuanzi-value" id="busuanzi_value_page_pv" ></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="for语句"><a href="#for语句" class="headerlink" title="for语句"></a>for语句</h2><p>Swift对for语句进行了增强，不但有C语言里那种普通形式的三段式的for循环，还增加了for in这种区间式for循环</p>
+<ul>
+<li><p><strong>常规for循环</strong>，同其他语言三段式的for循环，形式相同，只不过Swift省略了中间的括号</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">10</span>; i += <span class="number">2</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"output same 5 times"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>for .. in</strong>形式的循环，可以遍历数组，字典，集合，也可以遍历一个区间，有点类型于lua的for in 语法形式</p>
+<ol>
+<li><p>区间内循环</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="number">1</span> ..&lt; <span class="number">10</span></span><br><span class="line">&#123;</span><br><span class="line">  	<span class="built_in">print</span>(<span class="string">"index = \(i)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的index不需要let或者var声明，每次迭代都对对index自动赋值，一直到区间结束。</p>
+</li>
+<li><p>集合的遍历</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> dictionary:[<span class="type">Int</span>:<span class="type">String</span>] = [<span class="number">1</span>:<span class="string">"Swift"</span>, <span class="number">2</span>:<span class="string">"bugcode"</span>, <span class="number">3</span>:<span class="string">"Github"</span>]</span><br><span class="line"><span class="keyword">for</span> (key, val) <span class="keyword">in</span> dictionary <span class="comment">// 以元组的形式拿出数据</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"key = \(key) value = \(val)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>遍历字符串，与遍历集合类似</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> string:<span class="type">String</span> = <span class="string">"Swift Demo"</span></span><br><span class="line"><span class="keyword">for</span> char <span class="keyword">in</span> string.characters</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"single character = \(char)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="while-语句"><a href="#while-语句" class="headerlink" title="while 语句"></a>while 语句</h2><p>与C形式相同，只是去掉了括号，类似的还有repeat .. while，与C语言的do .. while形式相同，也是至少执行一次</p>
+<ul>
+<li><p><strong>While</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> <span class="built_in">count</span> = <span class="number">0</span></span><br><span class="line"><span class="keyword">var</span> summary = <span class="number">0</span></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">count</span> &lt; <span class="number">10</span></span><br><span class="line">&#123;</span><br><span class="line">    summary += <span class="built_in">count</span></span><br><span class="line">    <span class="built_in">count</span> += <span class="number">1</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>repeat .. while</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">repeat</span></span><br><span class="line">&#123;</span><br><span class="line">  	<span class="built_in">print</span>(<span class="string">"execute 1 time at less"</span>)</span><br><span class="line">&#125;<span class="keyword">while</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="条件语句"><a href="#条件语句" class="headerlink" title="条件语句"></a>条件语句</h2><ul>
+<li><p><strong>if语句</strong></p>
+<p>与C语言形式相同，也只是省去了括号</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> flag = <span class="number">1</span></span><br><span class="line"><span class="keyword">if</span> flag == <span class="number">1</span>  <span class="comment">// 这里必须是一个bool值</span></span><br><span class="line">&#123;</span><br><span class="line">  	<span class="built_in">print</span>(<span class="string">"flag == 1"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> <span class="keyword">if</span> flag == -<span class="number">1</span></span><br><span class="line">&#123;</span><br><span class="line">  	<span class="built_in">print</span>(<span class="string">"flag == -1"</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">&#123;</span><br><span class="line">  	<span class="built_in">print</span>(<span class="string">"flag == \(flag)"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><strong>switch 语句</strong></p>
+<p>Swift对switch语句进行了非常大的增加，不仅仅可以对相同与否作比较，还支持各种类型的各种形式的比较与操作。包括where子句，区间对比，元组匹配等</p>
+<ol>
+<li><p>常规switch，Swift的switch的case也不像C语言那样需要手动加break，不加break就会一直贯穿下去，如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> x = <span class="number">10</span>;</span><br><span class="line"><span class="keyword">switch</span> (x)</span><br><span class="line">&#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span>: <span class="comment">// 这里即是隐式的贯穿</span></span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">  <span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"x == 1 or x == 2 or x == 3"</span>);</span><br><span class="line">	<span class="keyword">break</span>; 	<span class="comment">// 必须手动加break，不然会一直贯穿到下一个case</span></span><br><span class="line">  <span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">  <span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"default"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Swift不存在隐式的贯穿，且必须有default分支，不然会有语法错误，每个case和default下必须有可执行的语句，否则也会报语法错误，如果想要case贯穿下去，则需要显式指定，使用<strong>fallthough</strong>关键字，可以在case后有n个备选值，这样来达到某些情况的贯穿需求</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> switchTest = <span class="number">1</span></span><br><span class="line"><span class="keyword">switch</span> switchTest</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"1"</span>)</span><br><span class="line">    <span class="keyword">fallthrough</span> <span class="comment">// 显式的贯穿，case 2也会执行</span></span><br><span class="line"><span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"2"</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">3</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"3"</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">4</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"4"</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>: <span class="comment">// 多个匹配值，都会匹配到这个case</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"5 or 6 or 7"</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"default case"</span>)  <span class="comment">// default必须存在</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>区间匹配的switch</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> switchTest</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> <span class="number">1</span> ... <span class="number">4</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"1 &lt;= \(switchTest) &lt;= 4"</span>)</span><br><span class="line"><span class="keyword">case</span> <span class="number">5</span> ..&lt; <span class="number">10</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"5 &lt;= \(switchTest) &lt; 10"</span>) <span class="comment">//  进入这个case</span></span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"defualt"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>元组匹配，Apple开发者官网上的例子非常好，直接移过来，可以匹配具体的某一个元组，也可以匹配二个区间的元组，如果元组内某个值要匹配任意值，就使用<strong>_</strong>(下划线)来表示任意值</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> point = (<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line"><span class="keyword">switch</span> point</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> (<span class="number">1</span>, <span class="number">2</span>): <span class="comment">// 匹配某个具体点</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"point (1, 2)"</span>)</span><br><span class="line"><span class="keyword">case</span> (-<span class="number">2</span> ... <span class="number">2</span>, -<span class="number">2</span> ... <span class="number">2</span>): <span class="comment">// 匹配一个区间</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"in range -2 -&gt; 2"</span>)</span><br><span class="line"><span class="keyword">case</span> (<span class="number">_</span>, <span class="number">1</span>): <span class="comment">// 只匹配第二个值</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"just matching y"</span>)</span><br><span class="line"><span class="keyword">case</span> (<span class="number">_</span>, <span class="number">_</span>): <span class="comment">// 匹配任意， 因为此处已能处理所有情况，所以这个switch可以没有default</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"match any point"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>case中的值绑定和where子句，可以在case语句中对匹配的值进行赋值给一个临时变量/常量，然后可以在case语句中直接引用这个变量/常量，where子句相当于是针对值绑定的做了一个更深入的条件匹配，这里就能体现出switch不仅仅只能做一般的普通比较，可以自定义各种条件来匹配case</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">point = (<span class="number">2</span>, <span class="number">5</span>)</span><br><span class="line"><span class="keyword">switch</span> point</span><br><span class="line">&#123;</span><br><span class="line"><span class="keyword">case</span> (<span class="number">1</span>, <span class="keyword">let</span> y): <span class="comment">// 第二个值绑定到y上，这个case里就可以使用y</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"point (1, 2)"</span>)</span><br><span class="line"><span class="keyword">case</span> (<span class="keyword">let</span> x, <span class="number">1</span>) <span class="keyword">where</span> x % <span class="number">2</span> == <span class="number">0</span>: <span class="comment">// x绑定到了第一个值上，且使用where子句过滤掉x不是2的倍数的值，相当是case的加强条件</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"just matching y"</span>)</span><br><span class="line"><span class="keyword">case</span> (<span class="keyword">let</span> x, <span class="keyword">let</span> y) <span class="keyword">where</span> x + y == <span class="number">7</span>: <span class="comment">// 二个值分别绑定在了x和y上，匹配x + y == 7的元组</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"x + y == 7"</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"default handler"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="循环条件转移语句"><a href="#循环条件转移语句" class="headerlink" title="循环条件转移语句"></a>循环条件转移语句</h2><ul>
+<li><p><strong>break</strong> </p>
+<p>常规用法与C语言相同，中断一个循环或者switch语句，跳到循环体或者switch大括号的下一句代码继续执行。通常用在switch的情况就是想忽略某个分支而不想写无用的语句，case语句里就可以直接写break，比如default里不想处理时，就可以直接default中写break语句直接忽略掉default。</p>
+<p>带标签的break，可以为某个循环或者switch指定标签，而break后带一个标签，显式指定要中断哪个循环或者switch</p>
+<blockquote>
+<p>labeName: for i in range</p>
+<p>break labelName //  显式指定要中断的循环体，直接跳出对应的标签的循环体去下一行执行</p>
+</blockquote>
+</li>
+<li><p><strong>continue</strong></p>
+<p>常用用法也是与C语言相同，直接跳过本次循环，继续下一次循环。</p>
+<p>continue也有与break相同的带标签的用法，意思就是直接开始标签所标示的的循环的下一次循环</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">outerLabel:<span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">1</span> ... <span class="number">5</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"outter loop \(1)"</span>)</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="number">5</span> ... <span class="number">10</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"inner loop \(j)"</span>)</span><br><span class="line">        <span class="keyword">if</span> j == <span class="number">6</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">continue</span> outerLabel <span class="comment">//  内部循环不再往后进行，直接开始下次外层循环</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+</ul>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Swift/" rel="tag"><i class="fa fa-tag"></i> Swift</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/04/26/SwiftNote-3.html" rel="next" title="SwiftNote-3">
+                <i class="fa fa-chevron-left"></i> SwiftNote-3
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/01/SwiftNote-5.html" rel="prev" title="SwiftNote-5">
+                SwiftNote-5 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+    </div>
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/chapimages/github.jpg"
+                alt="bugcode" />
+            
+              <p class="site-author-name" itemprop="name">bugcode</p>
+              <p class="site-description motion-element" itemprop="description">keep coding, keep moving...</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">58</span>
+                    <span class="site-state-item-name">Posts</span>
+                  </a>
+                </div>
+              
+
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">Tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/bugcoding" target="_blank" title="GitHub"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  
+                </span>
+              
+            </div>
+          
+
+          
+          
+
+          
+          
+    <br>
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#for语句"><span class="nav-number">1.</span> <span class="nav-text">for语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#while-语句"><span class="nav-number">2.</span> <span class="nav-text">while 语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#条件语句"><span class="nav-number">3.</span> <span class="nav-text">条件语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环条件转移语句"><span class="nav-number">4.</span> <span class="nav-text">循环条件转移语句</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2014 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-code"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">bugcode</span>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+          <span id="scrollpercent"><span>0</span>%</span>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/reading_progress/reading_progress.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.3.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.3.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.3.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.3.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.3.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.3.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+  
+  <script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+  
+  <script type="text/javascript">
+    var GUEST = ['nick','mail','link'];
+    var guest = 'nick,mail';
+    guest = guest.split(',').filter(function (item) {
+      return GUEST.indexOf(item)>-1;
+    });
+    new Valine({
+        el: '#comments' ,
+        verify: false,
+        notify: false,
+        appId: '9Ek1xxv2EEe99EicQqD86u6h-gzGzoHsz',
+        appKey: 'boLa9b9E2ssbnilPHuUBeCHT',
+        placeholder: '~_~',
+        avatar:'mm',
+        guest_info:guest,
+        pageSize:'10' || 10,
+    });
+  </script>
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <style>
+    .copy-btn {
+      display: inline-block;
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 20px;
+      color: #333;
+      white-space: nowrap;
+      vertical-align: middle;
+      cursor: pointer;
+      background-color: #eee;
+      background-image: linear-gradient(#fcfcfc, #eee);
+      border: 1px solid #d5d5d5;
+      border-radius: 3px;
+      user-select: none;
+      outline: 0;
+    }
+
+    .highlight-wrap .copy-btn {
+      transition: opacity .3s ease-in-out;
+      opacity: 0;
+      padding: 2px 6px;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+    }
+
+    .highlight-wrap:hover .copy-btn,
+    .highlight-wrap .copy-btn:focus {
+      opacity: 1
+    }
+
+    .highlight-wrap {
+      position: relative;
+    }
+  </style>
+  <script>
+    $('.highlight').each(function (i, e) {
+      var $wrap = $('<div>').addClass('highlight-wrap')
+      $(e).after($wrap)
+      $wrap.append($('<button>').addClass('copy-btn').append('复制').on('click', function (e) {
+        var code = $(this).parent().find('.code').find('.line').map(function (i, e) {
+          return $(e).text()
+        }).toArray().join('\n')
+        var ta = document.createElement('textarea')
+        document.body.appendChild(ta)
+        ta.style.position = 'absolute'
+        ta.style.top = '0px'
+        ta.style.left = '0px'
+        ta.value = code
+        ta.select()
+        ta.focus()
+        var result = document.execCommand('copy')
+        document.body.removeChild(ta)
+        
+        $(this).blur()
+      })).on('mouseleave', function (e) {
+        var $b = $(this).find('.copy-btn')
+        setTimeout(function () {
+          $b.text('复制')
+        }, 300)
+      }).append(e)
+    })
+  </script>
+
+
+</body>
+</html>

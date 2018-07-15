@@ -102,18 +102,21 @@
 
 
 
-  <meta name="description" content="几个C语言的特性和tricky，平时不常用到，却很有用，这里记录一下。  数组传参时的static修饰，编译期检查数据长度，类似void test_static(char param[static 5])，意思就是传入的param的char类型数组参数至少要有五个元素。 123456789101112// char param[static 1]检测NULLvoid test_static(cha">
-<meta name="keywords" content="C">
+  <meta name="description" content="凑单买了一本叫《IT简史》的书，一下午的时间翻了一遍，书本身没什么亮点，非常浅，也没有编著者的个人观战，感觉就是一本简版的Wiki百科的集合，不过翻一下也还好，有些事件和概念还是以前不知道了，就当补充计算机历史知识了。  腓尼基字母，这些一千多年前的象形文字居然还在Unicode里，U+10900 - U+1091F段内，图片摘自Wiki百科:     最早的纸带打孔的计算机雏形居然是来自于一个叫">
+<meta name="keywords" content="Reading">
 <meta property="og:type" content="article">
-<meta property="og:title" content="几个用到不多却很有用的C语言特性和小Tricky">
-<meta property="og:url" content="http://bugcode.net/2016/09/17/一些用到不多却很有用的C语语言特性.html">
+<meta property="og:title" content="《IT简史》速读">
+<meta property="og:url" content="http://bugcode.net/2017/03/15/《IT简史》速读.html">
 <meta property="og:site_name" content="Bugcode&#39;s Note">
-<meta property="og:description" content="几个C语言的特性和tricky，平时不常用到，却很有用，这里记录一下。  数组传参时的static修饰，编译期检查数据长度，类似void test_static(char param[static 5])，意思就是传入的param的char类型数组参数至少要有五个元素。 123456789101112// char param[static 1]检测NULLvoid test_static(cha">
+<meta property="og:description" content="凑单买了一本叫《IT简史》的书，一下午的时间翻了一遍，书本身没什么亮点，非常浅，也没有编著者的个人观战，感觉就是一本简版的Wiki百科的集合，不过翻一下也还好，有些事件和概念还是以前不知道了，就当补充计算机历史知识了。  腓尼基字母，这些一千多年前的象形文字居然还在Unicode里，U+10900 - U+1091F段内，图片摘自Wiki百科:     最早的纸带打孔的计算机雏形居然是来自于一个叫">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-30T11:01:41.076Z">
+<meta property="og:image" content="https://i.loli.net/2018/07/15/5b4ae0b0c8d83.png">
+<meta property="og:image" content="https://i.loli.net/2018/07/15/5b4aec1da38c2.png">
+<meta property="og:updated_time" content="2018-07-15T06:52:14.083Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="几个用到不多却很有用的C语言特性和小Tricky">
-<meta name="twitter:description" content="几个C语言的特性和tricky，平时不常用到，却很有用，这里记录一下。  数组传参时的static修饰，编译期检查数据长度，类似void test_static(char param[static 5])，意思就是传入的param的char类型数组参数至少要有五个元素。 123456789101112// char param[static 1]检测NULLvoid test_static(cha">
+<meta name="twitter:title" content="《IT简史》速读">
+<meta name="twitter:description" content="凑单买了一本叫《IT简史》的书，一下午的时间翻了一遍，书本身没什么亮点，非常浅，也没有编著者的个人观战，感觉就是一本简版的Wiki百科的集合，不过翻一下也还好，有些事件和概念还是以前不知道了，就当补充计算机历史知识了。  腓尼基字母，这些一千多年前的象形文字居然还在Unicode里，U+10900 - U+1091F段内，图片摘自Wiki百科:     最早的纸带打孔的计算机雏形居然是来自于一个叫">
+<meta name="twitter:image" content="https://i.loli.net/2018/07/15/5b4ae0b0c8d83.png">
 
 
 
@@ -122,7 +125,7 @@
 
 
 
-  <link rel="canonical" href="http://bugcode.net/2016/09/17/一些用到不多却很有用的C语语言特性.html"/>
+  <link rel="canonical" href="http://bugcode.net/2017/03/15/《IT简史》速读.html"/>
 
 
 
@@ -132,7 +135,7 @@
   };
 </script>
 
-  <title>几个用到不多却很有用的C语言特性和小Tricky | Bugcode's Note</title>
+  <title>《IT简史》速读 | Bugcode's Note</title>
   
 
 
@@ -326,7 +329,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2016/09/17/一些用到不多却很有用的C语语言特性.html">
+    <link itemprop="mainEntityOfPage" href="http://bugcode.net/2017/03/15/《IT简史》速读.html">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="bugcode">
@@ -343,7 +346,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">几个用到不多却很有用的C语言特性和小Tricky
+          <h1 class="post-title" itemprop="name headline">《IT简史》速读
               
             
           </h1>
@@ -366,7 +369,7 @@
                 
               
 
-              <time title="创建时间：2016-09-17 18:21:39" itemprop="dateCreated datePublished" datetime="2016-09-17T18:21:39+08:00">2016-09-17</time>
+              <time title="创建时间：2017-03-15 13:43:08" itemprop="dateCreated datePublished" datetime="2017-03-15T13:43:08+08:00">2017-03-15</time>
             
 
             
@@ -381,10 +384,10 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2016/09/17/一些用到不多却很有用的C语语言特性.html#comments" itemprop="discussionUrl">
+                <a href="/2017/03/15/《IT简史》速读.html#comments" itemprop="discussionUrl">
                   <span class="post-meta-item-text">
                     
-                        </span> <span class="post-comments-count valine-comment-count" data-xid="/2016/09/17/一些用到不多却很有用的C语语言特性.html" itemprop="commentCount"></span>
+                        </span> <span class="post-comments-count valine-comment-count" data-xid="/2017/03/15/《IT简史》速读.html" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -420,55 +423,41 @@
       
 
       
-        <p>几个C语言的特性和tricky，平时不常用到，却很有用，这里记录一下。</p>
+        <p>凑单买了一本叫《IT简史》的书，一下午的时间翻了一遍，书本身没什么亮点，非常浅，也没有编著者的个人观战，感觉就是一本简版的Wiki百科的集合，不过翻一下也还好，有些事件和概念还是以前不知道了，就当补充计算机历史知识了。</p>
 <ol>
-<li><p>数组传参时的<strong>static</strong>修饰，编译期检查数据长度，类似<code>void test_static(char param[static 5])</code>，意思就是传入的param的char类型数组参数至少要有五个元素。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// char param[static 1]检测NULL</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">test_static</span><span class="params">(<span class="keyword">char</span> param[<span class="keyword">static</span> <span class="number">5</span>])</span> </span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// code here</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> x[<span class="number">3</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>&#125;;</span><br><span class="line">    test_static(x);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述写法就会出现如下警告:</p>
-<blockquote>
-<p>warning: array argument is too small; contains 3 elements, callee requires at least 5 [-Warray-bounds]</p>
-</blockquote>
-<p>可参考<a href="http://stackoverflow.com/questions/30453010/what-is-the-meaning-of-static-in-parameters-array-types-in-c" target="_blank" rel="noopener">这里</a>。</p>
+<li><p><code>腓尼基字母</code>，这些一千多年前的象形文字居然还在Unicode里，U+10900 - U+1091F段内，图片摘自Wiki百科:</p>
+<p><img src="https://i.loli.net/2018/07/15/5b4ae0b0c8d83.png" style="zoom:50%"></p>
 </li>
-<li><p>动态指定printf输出数据的长度。可以用这种方式指定浮点数小数部分的保留位数。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pre = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">float</span> num = <span class="number">1.2432</span>;</span><br><span class="line">    <span class="keyword">char</span> *str = <span class="string">"test statements"</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"num = %.*f\n"</span>, pre, num); <span class="comment">// 输出 1.234</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"str = %.*s\n"</span>, pre, str); <span class="comment">// 输出 tes</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</ol>
+<ol start="2">
+<li><p>最早的纸带打孔的计算机雏形居然是来自于一个叫<code>雅卡尔</code>的织布机上，这个台织布机使用纸带打孔来控制纺织的不同样式。</p>
 </li>
-<li><p>printf还有一个格式参数<strong>%n</strong>，这个参数不输出任何内容，但是会把<strong>%n</strong>所在位置之前的字符计数都放入一个整型数值中。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pre = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">int</span> out_num = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">char</span> *str = <span class="string">"test statements"</span>;</span><br><span class="line">    <span class="comment">// 回车之前的字符计数都会放在out_num中</span></span><br><span class="line">    <span class="keyword">int</span> ret = <span class="built_in">printf</span>(<span class="string">"str = %.*s%n\n"</span>, pre, str, &amp;out_num); </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"out_num=%d, ret = %d\n"</span>, out_num, ret); </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出:</p>
-<blockquote>
-<p>str = test<br>out_num=10, ret = 11</p>
-</blockquote>
+<li><p>一直以为答题卡(2B铅笔涂黑块的那种答题卡)的读卡机是一种高科技，原来最早的读卡机1931年就研制出来了。</p>
 </li>
-<li><p>c11添加了<strong>_Static_assert</strong>静态断言，在c11之前可以自行定义一个『静态断言』，即条件为假制造编译错误。(from stackoverflow)</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> STATIC_ASSERT(COND,MSG) typedef char static_assertion_##MSG[(!!(COND))*2-1]</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPILE_TIME_ASSERT3(X,L) STATIC_ASSERT(X,static_assertion_at_line_##L)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPILE_TIME_ASSERT2(X,L) COMPILE_TIME_ASSERT3(X,L)</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> COMPILE_TIME_ASSERT(X)    COMPILE_TIME_ASSERT2(X,__LINE__)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    COMPILE_TIME_ASSERT(<span class="keyword">sizeof</span>(<span class="keyword">int</span>)==<span class="number">5</span>); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>编译提示如下:</p>
-<blockquote>
-<p>error: ‘static_assertion_static_assertion_at_line_11’ declared as an array with a negative size</p>
-<p>COMPILE_TIME_ASSERT(sizeof(int) == 3);</p>
-</blockquote>
+<li><p><code>蜂窝网络(Cellular network)</code>，叫蜂窝是因为最初设计信号塔的六边形布置的构想，因为六边形布置会使相同覆盖面积下这样的布置需要的信号塔数量最少，而六边形又像蜂窝的形状。</p>
 </li>
-<li><p>编译器的尝试性定义，代码:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i;</span><br><span class="line"><span class="keyword">int</span> i = <span class="number">10</span>; <span class="comment">// 或者int i;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d\n"</span>, i);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码不会报错，C标准是这样来解释的，因为声明是出现在文件域的，不是出现在某个函数域内，把其当做外部定义，同时编译器还根据定义是否有初始值来区分，带初值的就叫做定义，没有初始值的也没extern关键的字就是尝试性的定义，如果文件中同时出现了这二种(也就是一个是定义，一个是尝试性定义，像上文代码)，这样那个没有带初始值的就直接当做冗余定义来处理了，不会当做redefinition，如果二个都是没带初值的，也没带extern关键字的，编译器就会把这二个尝试性定义合并成为一个初始值为0的非尝试性定义。现在上面的代码会输出10，如果把<code>int i = 10</code>改为<code>int i;</code>，代码会输出0。</p>
+<li><p>第一款编译器叫<code>A-0</code>，将数学符号转换为机器指令。</p>
 </li>
-<li><p>不能在一个返回类型为void的函数中写return void，但是可以返回执行一个返回void的函数。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">foo</span><span class="params">(<span class="keyword">int</span> x)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bar</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> foo(<span class="number">10</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    bar();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>IBM的大型机系统<code>System/360</code>，投入6万名员工，51亿美元，其项目经理根据这个项目的经验总结写了出软件工程的神书《人月神话》，到现在还是畅销书。</p>
 </li>
-<li><p>网上很多例子说三元运算符可以这样用:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> y = <span class="number">0</span>;</span><br><span class="line">    (y &lt; <span class="number">0</span> ? x : y) = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, x, y);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>也就是说三元运算符会产生一个左值，c语言里面是不可以的，这样编译:</p>
-<blockquote>
-<p>gcc -Wall -std=c99 test.c -o test</p>
-</blockquote>
-<p>会报编译错误，提示你表达式不能被赋值(<em>error: expression is not assignable</em>)。</p>
-<p>但是在c++里的确可以。也就是上面这段代码用g++编译(会有警告)或者直接写一段c++的代码:</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;cstdio&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> x = <span class="number">10</span>;</span><br><span class="line">    <span class="keyword">int</span> y = <span class="number">0</span>;</span><br><span class="line">    (y &lt; <span class="number">0</span> ? x : y) = <span class="number">20</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d\n"</span>, x, y);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>g++ -Wall test.cpp -o test</p>
-<p>./test </p>
-</blockquote>
-<p>会输出10 20。</p>
+<li><p><code>RPG</code>除了角色扮演游戏的意思之外，还是IBM研发一款报表生成器(Report Program Generator)。当然还是一种武器: <em>肩扛火箭榴弹</em>。</p>
+</li>
+<li><p><code>结构化编程概念</code>由Dijkstra提出，写了一篇名为《Go To Statement Considered Harmful》的论文，提出goto语句使程序流程混乱，并提出了结构化编程的概念，同时他也是Dijkstra最短路径算法和银行家算法(操作系统资源分配解决方案)的作者。</p>
+</li>
+<li><p><code>RFC</code>(Request For Comment)请求评议，互联网标准一系列编号排定的文件都使用这个命令，比如RFC1738就是URL编码标准的文件。</p>
+</li>
+<li><p>1992年美国计算机协会还发布了一个叫<code>IT与职业道德</code>的东西，提倡了一堆类似<em>不允许使用计算机做损害他人的事</em>之类的东西。</p>
+</li>
+<li><p>现在准备看一下<code>《格列佛游记》</code>这本书，一来是大小端这个叫法来自格列佛游记，雅虎公司这个名字(Yahoo!)这个名字也来自于格列佛游记。</p>
+</li>
+<li><p><code>蓝牙</code>这个词居然是来自于布鲁图斯国王名字首字母的北欧古字母的表示，使用他的名字是因为这个国王把分裂的挪威，丹麦，瑞典统一起来，爱立信，诺基亚，IBM几家公司联合推出这个无线通讯技术取名为这个国王的名字应该就是取其<code>统一</code>的意义，可能就是表示通过无线通讯技术把各个平台都<code>统一</code>连结起来的意思吧。</p>
+<p><img src="https://i.loli.net/2018/07/15/5b4aec1da38c2.png" alt="截图来自Wiki"></p>
+</li>
+<li><p><code>千年虫</code>，以为是人为制造的一种病毒，原来就是全世界的计算机系统在2000年前对年的表示都使用后二位，2000前一直没什么问题，但是到2000年，00这种表示就出现了问题，可能是1900，也可能是2000，这样计算机对时间表示出错，就造成了各种问题。</p>
+</li>
+<li><p><code>Web 2.0</code>相对于<code>Web 1.0</code>，Web 2.0是一个概念，指的是用户为根本，用户做为内容的生产者和传播者。而Web 1.0 指用户只是内容的消费者。Web 2.0就是一个概念，互联网用户角色转变的的过程。</p>
+</li>
+<li><p><code>蓝光光盘</code>，叫蓝光的原因是这种光盘是使用405纳米长的激光对光盘进行读写。Blu-ray商标不叫Blue-ray，是因为注册商标时Blue ray是一个常用词而不允许注册，所以去掉了Blue中的e。</p>
 </li>
 </ol>
 
@@ -491,7 +480,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/C/" rel="tag"><i class="fa fa-tag"></i> C</a>
+            <a href="/tags/Reading/" rel="tag"><i class="fa fa-tag"></i> Reading</a>
           
         </div>
       
@@ -504,8 +493,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/09/10/Xcode-8使用XVim的问题.html" rel="next" title="Xcode-8使用XVim的问题">
-                <i class="fa fa-chevron-left"></i> Xcode-8使用XVim的问题
+              <a href="/2017/03/05/五读《Expert-C-Programming》.html" rel="next" title="五读《Expert C Programming》">
+                <i class="fa fa-chevron-left"></i> 五读《Expert C Programming》
               </a>
             
           </div>
@@ -513,10 +502,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/10/22/Git小记.html" rel="prev" title="Git小记(基础命令)">
-                Git小记(基础命令) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>

@@ -126,7 +126,7 @@
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(?!=p)pattern</span><br></pre></td></tr></table></figure>
 <p>需要pattern前面不能是p才能匹配</p>
 </li>
-<li><p>使用环视给数字添加分隔符, 如12345， 处理成123,45这种</p>
+<li><p>使用环视给数字添加分隔符, 如12345， 处理成12,345这种</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"> </span><br><span class="line">number = <span class="string">"12345678"</span></span><br><span class="line">pattern = <span class="string">r'(?&lt;=\d)(?=(\d&#123;3&#125;)+$)'</span></span><br><span class="line"></span><br><span class="line">num = re.sub(pattern, <span class="string">","</span>, number)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"original number: "</span>, number, <span class="string">" replaced number:"</span>, num</span><br></pre></td></tr></table></figure>
 <p><code>(?&lt;=\d)(?=(\d{3})+$)</code>匹配的是左边是数字，右边是三位数字结尾的一个位置，在这个位置插入一个逗号，由于这只是一个位置，不消耗具体字符，所有原数字不在替换范围之内，只会在正确的位置插入逗号。</p>
 </li>

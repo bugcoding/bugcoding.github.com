@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://bugcode.net/"/>
-  <updated>2018-09-12T13:50:33.539Z</updated>
+  <updated>2018-09-12T13:53:01.366Z</updated>
   <id>http://bugcode.net/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://bugcode.net/2017/07/09/%E3%80%8AThe-Math-Book%E3%80%8B.html"/>
     <id>http://bugcode.net/2017/07/09/《The-Math-Book》.html</id>
     <published>2017-07-09T13:48:00.000Z</published>
-    <updated>2018-09-12T13:50:33.539Z</updated>
+    <updated>2018-09-12T13:53:01.366Z</updated>
     
     <content type="html"><![CDATA[<p>看了一本书《数学之书》，英文名叫《The Math Book》，翻译得惨不忍睹，不过里面还是有一些有趣的之前没听过的东西，记在这里了。</p><a id="more"></a><ol><li><strong>幻方</strong>  1-N<sup>2</sup> 每行每列恒等于 N(N<sup>2</sup> + 1) / 2</li><li><strong>芝诺悖论</strong>  阿喀琉斯与乌龟赛跑，想要追上乌龟就要不停去走过乌龟的路，无限细分并叠加，但是这样无限相加的结果也是有限的</li><li><strong>亚里士多德轮子悖论</strong> 不同大小的轮子，同心圆方式连接在一起，走过的路程相同</li><li><strong>亲和数</strong>  成对的，自己所有因子之和正好等于对方</li><li><strong>费马最后定理</strong> X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup> 不存在一组非0的整数解</li><li><strong>斯特灵公式</strong> 估算阶乘的公式   n! ≈ √2π <em> e<sup>-n</sup> </em> n<sup>n+1/2</sup></li><li><strong>哥德巴赫猜想</strong> 任何大于5的整数都能写成三个质数之和</li><li><strong>布冯投针</strong> 向一张画有直线的纸上投针，根据针与纸上直线交会的概率 估算出 π</li><li><strong>代数基本定理</strong> 对于自然数n次的多项式，无论其多项式系数是实数或复数，都有n个实数或者复数根</li><li><strong>莫比乌斯函数</strong> 整数分成三类，除1外的平方数与其倍数，奇数个因子构成的数字，偶数个因子构成的数</li><li><strong>超越数</strong> 无法成为有理数系数代数方程的根，圆周率π和欧拉数e都是超越数</li><li><strong>卡塔兰猜想</strong> 整数平方与整数立方二个数列合并起在一起，只有8和9的连着的(2<sup>3</sup>和3<sup>2</sup>)，并且是唯一连续的</li><li><strong>四色定理</strong> 平面地图绘制中，不会有任何一张地图会需要超过4种颜色来着色</li><li><strong>勒洛三角形</strong> 三个相同的圆形在等边三角形上的三个顶点交汇而成的圆弧三角形，用作钻圆洞的钻头，钻出圆孔</li><li><strong>本福特定律</strong> 现实生活中各种数目表里以1为开头的数字概率是30%，远大于其他数字，可以用来审核假帐</li><li><strong>《平面国》</strong> 描述一个生活在二维世界生物的小说</li><li><strong>皮克定理</strong> 在方格纸上的交界点画没有中空的多边形，此多边形面积 = 多边形内交界点数 + 多边形端点/2 + 1</li><li><strong>荣格定理</strong> 在一个有限点集合中，二个距离最远的点距离为d，则只需要半径为d/√3的就可以将其包围，扩展到三维空间，这个半径值为√6d/4</li><li><strong>若尔当曲线定理</strong> 封闭的曲线自身不交叉的打乱，内部画一个点，过这一点做一条直线，如果直线与曲线交点为偶数，点在曲线外，交点为奇数，点在曲线内</li><li><strong>图厄-摩斯数列</strong>  递归创造的数列， 从0开始，把0替换为01，再把1替换成10，不断重复下去，某些项是回文</li><li><strong>毛球定理</strong> 布满毛绒的球体上面，如果想要把每个毛发梳理成平的，无论如何都会有一根是直立的，否则一定可以在球体上找到没有毛发覆盖的地方，即针对球面上一切连续的向量场，至少存在一点使得向量场为0</li><li><strong>无限猴子定理</strong> 让一只猴子在键盘上任意敲打无限次，可以肯定某个时刻定能完成一篇字数有限的特定文本，如莎士比亚全集</li><li><strong>强森定理</strong> 如三个相同大小的圆形有一个共同交点，则其他三个点一定位于一个与这三个圆形相同大小的圆形的圆周之上</li><li><strong>布朗常数</strong> 二个质数如果是连续的奇数，如3，5，则称之为孪生质数，所有孪生质数倒数之和会收敛到一个常数上，1.90216，这就是布朗常数</li><li><strong>钱珀努恩数</strong> 小数点后把所有正整数都连接起来，这也是一个超越数</li><li><strong>菲尔兹奖</strong> 数学界的诺贝尔，颁给年龄不到40岁的具有杰出研究成果的数学家</li><li><strong>吉伯瑞斯猜想</strong> 写下一行质数，下一行再把上一行的二个质数之差不计正负的写下来，依次写下去，每一行第一个数字都是1</li><li><strong>安德里卡猜想</strong> 二个连续的质数平方根之差小于1</li><li><strong>发声数列</strong> 后一项把前一项的数字个数都标出来 如: 1 11 21 1211 111221…</li></ol>]]></content>
     

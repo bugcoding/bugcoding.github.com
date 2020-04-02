@@ -11,19 +11,19 @@
 					<key>kind</key>
 					<string>software-package</string>
 					<key>url</key>
-					<string>https://bugcode-01.coding.net/p/FillRemote/d/FillRemote/git/raw/master/Unity-iPhone.ipa</string>
+					<string>https://bugcode.net/ota/FillRemote/Unity-iPhone.ipa</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>display-image</string>
 					<key>url</key>
-					<string>https://bugcode-01.coding.net/p/FillRemote/d/FillRemote/git/raw/master/Icon.png</string>
+					<string>https://bugcode.net/ota/FillRemote/Icon.png</string>
 				</dict>
 				<dict>
 					<key>kind</key>
 					<string>full-size-image</string>
 					<key>url</key>
-					<string>https://bugcode-01.coding.net/p/FillRemote/d/FillRemote/git/raw/master/Icon-80.png</string>
+					<string>https://bugcode.net/ota/FillRemote/Icon-80.png</string>
 				</dict>
 			</array>
 			<key>metadata</key>

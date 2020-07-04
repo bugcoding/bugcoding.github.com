@@ -141,6 +141,10 @@ padding: 0;
 .price-value.three {
 	background: #30dbb5;
 }
+.price-value.four {
+	background: #f57af5;
+}
+
 .price-value ul,.pricing-grid1 ul,.pricing-grid2 ul,.pricing-grid3 ul{
 	padding: 0;
 }
@@ -176,11 +180,11 @@ padding: 11px 0;
 .price-bg ul li{
 	list-style: none;
 }
-.cart1,.cart2,.cart3{
+.cart1,.cart2,.cart3, .cart4{
 	padding: 2.7em 0em 2.7em;
 	display: block;
 }
-.cart1 a,.cart2 a,.cart3 a{
+.cart1 a,.cart2 a,.cart3 a, .cart4 a{
 	color: #FFF;
 	font-size: 0.9em;
 	font-weight: 500;
@@ -204,6 +208,11 @@ padding: 11px 0;
 	background:#30dbb5;
 	border: 2px solid #30dbb5;
 }
+.cart4 a{
+	background:#f57af5;
+	border: 2px solid #f57af5;
+}
+
 .cart1 a:hover{
 	background:none;
 	border: 2px solid #f5a623;
@@ -218,6 +227,11 @@ padding: 11px 0;
 	border: 2px solid #30dbb5;
 	background:none;
 	color: #30dbb5;
+}
+.cart4 a:hover{
+	border: 2px solid #f57af5;
+	background:none;
+	color: #f57af5;
 }
 /*----*/
 /*---start-pricing-tabels-----*/
